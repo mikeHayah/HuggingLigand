@@ -1,3 +1,8 @@
+# ⚠️ [DEPRECATED] — 12.06.2025 
+This meeting note refers to the now-shelved *GitInScene* project.  
+The current active project is documented in [project_pivoting_2025-06-12.md](project_pivoting_2025-06-12.md).
+
+
 # Meeting 09.06.2025
 Attendees: Ramy Boulos, Michael Hayay, Justus Möller
 
