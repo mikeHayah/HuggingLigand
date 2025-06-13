@@ -20,8 +20,9 @@
 
 ---
 
-<pre> ## Directory Structure '''
-
+## Directory Structure
+<pre>  
+'''
 HuggingLigand/
 │
 ├── data/
@@ -68,4 +69,5 @@ HuggingLigand/
 ├── .gitlab-ci.yml            # CI/CD configuration for GitLab
 ├── README.md
 ├── LICENSE
-└── (Other metadata)'''</pre> 
+└── (Other metadata)
+'''</pre> 
