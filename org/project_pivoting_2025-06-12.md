@@ -68,6 +68,8 @@ Data files to be processed into train/validation/test splits for model training.
 ---
 
 ## Planned Directory Structure
+<pre>
+``` 
 HuggingLigand/
 │
 ├── data/
@@ -115,3 +117,4 @@ HuggingLigand/
 ├── README.md
 ├── LICENSE
 └── (Other metadata)
+``` </pre>
