@@ -27,11 +27,11 @@ HuggingLigand/
 ├── data/
 │   ├── raw/                  # Original BindingDB data 
 │   ├── processed/            # Preprocessed/cleaned datasets
-│   └── embeddings/           # Precomputed protein and ligand embeddings
+│   ├── embeddings/           # Precomputed protein and ligand embeddings
 │   └── huggings/             # Combined embeddings for affinity model
-|       ├── train/            # Training dataset
-|       ├── valid/            # Validation dataset
-|       └── test/             # testing dataset
+│        ├── train/            # Training dataset
+│        ├── valid/            # Validation dataset
+│        └── test/             # testing dataset
 │
 ├── models/
 │   ├── protT5_embedding.py   # Wrapper & pipeline for ProtT5 embedding
@@ -54,10 +54,10 @@ HuggingLigand/
 ├── tests/                    # Unit and integration tests for models, pipelines
 │
 ├── scripts/                  # CLI scripts for training, inference, etc.
-|   ├── generate_embeddings.py
-|   ├── train_affinity_model.py
-|   ├── infer_affinity.py
-|   └── evaluate_model.py
+│   ├── generate_embeddings.py
+│   ├── train_affinity_model.py
+│   ├── infer_affinity.py
+│   └── evaluate_model.py
 │
 ├── logs/                     # Training and evaluation logs
 │
