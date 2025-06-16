@@ -30,9 +30,10 @@ HuggingLigand/
 │   ├── processed/            # Preprocessed/cleaned datasets
 │   ├── embeddings/           # Precomputed protein and ligand embeddings
 │   └── huggings/             # Combined embeddings for affinity model
-│        ├── train/            # Training dataset
-│        ├── valid/            # Validation dataset
-│        └── test/             # testing dataset
+│        ├── train/           # Training dataset
+│        ├── valid/           # Validation dataset
+│        └── test/            # testing dataset
+│   ├── Model_registery       # Save Model checkpoint
 │
 ├── models/
 │   ├── protT5_embedding.py   # Wrapper & pipeline for ProtT5 embedding
@@ -40,25 +41,32 @@ HuggingLigand/
 │   ├── affinity_predictor.py # Third model for affinity prediction
 │   └── utils/                # Custom layers, loss functions, metrics etc.
 │
-├── pipelines/
-│   ├── preembedding.py       # Data cleaning, transformation, splitting
-│   ├── embedding_pipeline.py # Generate embeddings and save them
-│   ├── postembedding.py      # Data hugging, and resplitting into train/valid/test
-│   ├── training_pipeline.py  # Full training pipeline for affinity model
-│   └── evaluation.py         # Model evaluation, plotting, performance metrics
+├── pipeline_blocks/
+│   ├── preembedding_block.py       # Data cleaning, transformation, splitting
+│   ├── embedding_block.py          # Generate embeddings and save them
+│   ├── postembedding_block.py      # Data hugging, and resplitting into train/valid/test
+│   ├── training_block.py           # training for affinity model
+│   └── evaluation_block.py         # infer the affinity of couple of protein and ligand
 │
+├── modules/                        # Any object to be used in pipeline blocks
+│   ├── downloader                  # Data downloading
+│   ├── reformmater                 # Put Data into good format
+│   ├── preprocessor                # Apply processing functions on Data
+│   └── ....
 │
 ├── config/
 │   ├── config.yaml           # General config for paths, hyperparameters
 │   └── model_params.yaml     # Architecture, optimizer settings etc.
 │
 ├── tests/                    # Unit and integration tests for models, pipelines
-│
-├── scripts/                  # CLI scripts for training, inference, etc.
 │   ├── generate_embeddings.py
 │   ├── train_affinity_model.py
 │   ├── infer_affinity.py
 │   └── evaluate_model.py
+│
+├── scripts/                  # CLI scripts for training, inference, etc.
+│   ├── train_huggingligand.py
+│   └── evaluate_huggingligand.py
 │
 ├── logs/                     # Training and evaluation logs
 │
