@@ -1,5 +1,10 @@
 # HuggingLigand: Where proteins embrace ligands through deep learning
 
+HuggingLigand is a DeepLearning pipeline designed for predicting the binding affinity between proteins and ligands. This prediction task is central to areas like drug discovery, biophysics, and computational biology, where determining how tightly a small molecule ligand binds to a protein target is crucial.
+The pipeline uses state-of-the-art transformer models to automatically convert molecular and sequence data into rich, high-dimensional embeddings:
+ProtT5: a protein language model pretrained on millions of protein sequences.
+ChemBERTa: a molecular language model trained on SMILES representations of chemical compounds.
+These embeddings are concatenated and fed into a customizable  model that learns to predict continuous binding affinity values (e.g., Kd, Ki, or IC50 values).
 
 ## Dataset  
 
