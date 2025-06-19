@@ -1,12 +1,14 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+import pytest
 import torch
 
 from models.protT5_embedding import ProtT5Embedder
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
+@pytest.mark.slow
 def test_embedder():
     # Example protein sequence from UniProt (HIV protease)
     sequences = [
