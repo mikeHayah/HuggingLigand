@@ -1,16 +1,11 @@
+image: python:3.11-slim
+
 stages:
   - lint
   - test
 
-variables:
-  POETRY_VIRTUALENVS_CREATE: false
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-
 before_script:
-  - apt-get update && apt-get install -y python3.11 python3.11-venv curl
-  - curl -sSL https://install.python-poetry.org | python3 -
-  - export PATH="$HOME/.local/bin:$PATH"
-  - poetry env use python3.11
+  - pip install poetry
   - poetry install
 
 lint:
