@@ -1,84 +1,90 @@
-# Group 11
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://codebase.helmholtz.cloud/tud-rse-pojects-2025/group-11.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://codebase.helmholtz.cloud/tud-rse-pojects-2025/group-11/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-## Name
-HuggingLigand
-
-## Description
-HuggingLigand is a modular deep learning pipeline designed for predicting the binding affinity between proteins and ligands. This prediction task is central to areas like drug discovery, biophysics, and computational biology, where determining how tightly a small molecule ligand binds to a protein target is crucial.
-
+# HuggingLigand: Where proteins embrace ligands through deep learning
+<pre>
+HuggingLigand is a DeepLearning pipeline designed for predicting the binding affinity between proteins and ligands. This prediction task is central to areas like drug discovery, biophysics, and computational biology, where determining how tightly a small molecule ligand binds to a protein target is crucial.
 The pipeline uses state-of-the-art transformer models to automatically convert molecular and sequence data into rich, high-dimensional embeddings:
-
 ProtT5: a protein language model pretrained on millions of protein sequences.
-
 ChemBERTa: a molecular language model trained on SMILES representations of chemical compounds.
-
 These embeddings are concatenated and fed into a customizable  model that learns to predict continuous binding affinity values (e.g., Kd, Ki, or IC50 values).
+</pre> 
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+## Dataset  
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+**BindingDB** — a curated dataset of experimentally measured protein-ligand binding affinities.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+---
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+##  Workflow  
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+1. **Data Preprocessing**
+2. **Protein and Ligand Embedding Generation**
+3. **Data Postprocessing**
+3. **Training Affinity Prediction Model**
+4. **Model Evaluation**
+5. **Visualization of Results**
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+---
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## Directory Structure
+<pre>  
+'''
+HuggingLigand/
 
-## Authors and acknowledgment
-Ramy Boulos, Justus Möller, Michael Hanna
+Data-repo
+├── data/
+│   ├── raw/                  # Original BindingDB data 
+│   ├── processed/            # Preprocessed/cleaned datasets
+│   ├── embeddings/           # Precomputed protein and ligand embeddings
+│   └── huggings/             # Combined embeddings for affinity model
+│        ├── train/           # Training dataset
+│        ├── valid/           # Validation dataset
+│        └── test/            # testing dataset
+└── Model_registery           # Save Model checkpoint
 
-## License
-
-## Project status
-
+Code-repo
+├── src/
+│   ├── scripts/                        # CLI scripts for training, inference, etc.
+│   │   ├── train_huggingligand.py
+│   │   └── evaluate_huggingligand.py
+│   │
+│   ├── pipeline_blocks/
+│   │   ├── preembedding_block.py       # Data cleaning, transformation, splitting
+│   │   ├── embedding_block.py          # Generate embeddings and save them
+│   │   ├── postembedding_block.py      # Data hugging, and resplitting into train/valid/test
+│   │   ├── training_block.py           # training for affinity model
+│   │   └── evaluation_block.py         # infer the affinity of couple of protein and ligand
+│   │
+│   ├── models/
+│   │   ├── protT5_embedding.py         # Wrapper & pipeline for ProtT5 embedding
+│   │   ├── chemberta_embedding.py      # Wrapper & pipeline for ChemBERTa embedding
+│   │   ├── affinity_predictor.py       # Third model for affinity prediction
+│   │   └── utils/                      # Custom layers, loss functions, metrics etc.
+│   │
+│   ├── modules/                        # Any object to be used in pipeline blocks
+│   │   ├── downloader                  # Data downloading
+│   │   ├── reformmater                 # Put Data into good format
+│   │   ├── preprocessor                # Apply processing functions on Data
+│   │   └── ....
+│   │
+│   └──  config/
+│       ├── config.yaml                 # General config for paths, hyperparameters
+│       └── model_params.yaml           # Architecture, optimizer settings etc.
+│   
+├── tests/                              # Unit and integration tests for models, pipelines
+│   ├── generate_embeddings.py
+│   ├── train_affinity_model.py
+│   ├── infer_affinity.py
+│   └── evaluate_model.py
+│
+├── logs/                     # Training and evaluation logs
+│
+├── results/                  # Model predictions, performance plots
+│
+├── requirements.txt
+├── environment.yml           # Conda environment (if used)
+├── .gitlab-ci.yml            # CI/CD configuration for GitLab
+├── README.md
+├── LICENSE
+└── (Other metadata)
+'''</pre> 
