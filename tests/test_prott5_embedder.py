@@ -4,7 +4,7 @@ import sys
 import pytest
 import torch
 
-from models.protT5_embedding import ProtT5Embedder
+from src.models.protT5_embedding import ProtT5Embedder
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
