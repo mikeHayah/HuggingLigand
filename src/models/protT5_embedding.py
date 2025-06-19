@@ -1,7 +1,9 @@
-from transformers import T5Tokenizer, T5EncoderModel
-import torch
-from typing import List
 import logging
+
+import torch
+
+from modules.embedding_utils import mean_pool_embedding
+from modules.loaders import load_prott5_model
 
 logger = logging.getLogger(__name__)
 
@@ -28,13 +30,10 @@ class ProtT5Embedder:
     def __init__(self, device: str = "cpu"):
         self.device = torch.device(device)
         logger.info(f"Using device: {self.device}")
-        self.tokenizer = T5Tokenizer.from_pretrained("Rostlab/prot_t5_xl_uniref50", do_lower_case=False)
-        self.model = T5EncoderModel.from_pretrained("Rostlab/prot_t5_xl_uniref50")
-        self.model.to(self.device)
-        self.model.eval()
+        self.tokenizer, self.model = load_prott5_model(self.device)
         self._cache = {}
 
-    def embed(self, sequences: List[str]) -> List[torch.Tensor]:
+    def embed(self, sequences: list[str]) -> list[torch.Tensor]:
         """
         Embed a list of protein sequences.
 
@@ -58,11 +57,11 @@ class ProtT5Embedder:
             embeddings = outputs.last_hidden_state
 
         pooled = []
-        for seq, emb, mask in zip(sequences, embeddings, attention_mask):
+        for seq, emb, mask in zip(sequences, embeddings, attention_mask, strict=False):
             if seq in self._cache:
                 pooled.append(self._cache[seq])
             else:
-                mean_emb = emb[:mask.sum()].mean(dim=0)
+                mean_emb = mean_pool_embedding(emb, mask)
                 self._cache[seq] = mean_emb
                 pooled.append(mean_emb)
 
