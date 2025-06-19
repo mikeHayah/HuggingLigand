@@ -1,0 +1,79 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Poetry and virtual environments
+*.venv/
+.venv/
+env/
+venv/
+.poetry/
+
+# Jupyter/IPython Notebook checkpoints
+.ipynb_checkpoints/
+
+# VSCode settings
+.vscode/
+
+# Logs
+*.log
+logs/
+
+# macOS-specific
+.DS_Store
+
+# Unit test / coverage
+.coverage
+.tox/
+.nox/
+coverage.xml
+htmlcov/
+
+# Cache and artifacts
+*.cache/
+.cache/
+*.pkl
+*.pt
+*.ckpt
+*.h5
+
+# PyInstaller
+dist/
+build/
+
+# Sphinx documentation
+docs/_build/
+*.docset
+
+# Environment
+.env
+.env.*
+
+# Results
+results/
+*.csv
+*.tsv
+*.jsonl
+
+# Hugging Face / model data
+*.model
+*.tokenizer
+*.bin
+*.h5
+*.ckpt
+*.onnx
+transformers_cache/
+datasets_cache/
+~/.cache/huggingface/
+
+# MyPy and Ruff
+.mypy_cache/
+.dmypy.json
+ruff_cache/
+
+# Test __pycache__ & compiled files
+tests/__pycache__/
+models/__pycache__/
+pipeline_blocks/__pycache__/
