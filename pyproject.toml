@@ -17,7 +17,12 @@ dependencies = [
 
 [tool.poetry]
 name = "huggingligand"
-packages = [{ include = "models", from = "src" }]
+packages = [
+    { include = "models", from = "src" },
+    { include = "modules", from = "src" },
+    { include = "pipeline_blocks", from = "src" },
+    { include = "scripts", from = "src" }
+]
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.0"
