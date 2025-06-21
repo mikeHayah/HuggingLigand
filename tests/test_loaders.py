@@ -1,0 +1,21 @@
+import pytest
+import sys
+import os
+from transformers import RobertaTokenizerFast, RobertaForMaskedLM
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.modules.loader import load_chemberta_model
+
+
+@pytest.mark.slow
+def test_load_chemberta_model():
+    tokenizer, model = load_chemberta_model(device="cpu")
+
+    assert isinstance(tokenizer, RobertaTokenizerFast), "Expected a AutoTokenizer"
+    assert isinstance(model, RobertaForMaskedLM), "Expected a AutoModelForMaskedLM"
+    assert model.device.type == "cpu", "Model should be on CPU"
+
+    print("Model and tokenizer loaded successfully")
+
+test_load_chemberta_model()
