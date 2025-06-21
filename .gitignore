@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -77,3 +78,6 @@ ruff_cache/
 tests/__pycache__/
 models/__pycache__/
 pipeline_blocks/__pycache__/
+=======
+.venv
+>>>>>>> 4e6b98f (added metadata files)

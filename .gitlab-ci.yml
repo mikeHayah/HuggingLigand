@@ -1,0 +1,21 @@
+image: python:3.11-slim
+
+stages:
+  - lint
+  - test
+
+before_script:
+  - pip install poetry
+  - poetry install
+  - export PYTHONPATH=src
+
+lint:
+  stage: lint
+  script:
+    - poetry run ruff check .
+  allow_failure: false
+
+test:
+  stage: test
+  script:
+    - poetry run pytest -m "not slow"
