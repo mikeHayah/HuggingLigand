@@ -28,6 +28,9 @@ class DataDownloader:
         str
             The path to the downloaded file.
         """
+        if os.path.exists(self.filename):
+            print(f"File {self.filename} already exists. Skipping download.")
+            return 
         response = requests.get(self.url, stream=True)
         response.raise_for_status()
         

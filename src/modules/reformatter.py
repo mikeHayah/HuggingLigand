@@ -48,25 +48,45 @@ class Reformatter:
             DataFrame containing the file's content.
         """
         sep = '\t' if file_path.endswith('.tsv') else ','
+        # Initialize an list to store requied cols as header
         combined_data = []
         header = None
         with open(file_path, 'r', encoding='utf-8') as f:
             for line in f:
-                if not line:
-                   continue  # skip empty lines
-                cells = line.strip()
-                # If header is None or this line matches header
-                if header is None:
-                    header = cells
-                    continue
-                if cells == header:
-                    # repeated header, skip
-                    continue
-                # Only add rows with correct length
-                if len(cells) == len(header):
-                    combined_data.append(cells)
-        df = pd.DataFrame(combined_data, columns=header)
+                line = line.strip()
+                cells = line.split(sep)
+                if cells[0] == 'BindingDB Reactant_set_id':
+                    if(self.read_valid_header(cells)):
+                        header = cells
+                    else:
+                        header = None
+                else:
+                    if header is None:
+                        continue
+                    else:
+                        # look for values of cells where cols of header is self.required_columns
+                        required_cells = [cells[header.index(col)] if col in header else '' for col in self.required_columns]
+                        combined_data.append(required_cells)
+        df = pd.DataFrame(combined_data, columns= [cols for cols in self.required_columns])
         return df
+
+    def read_valid_header(self,cells):
+        """
+        Check if the header contains the required columns.
+        Parameters:
+        ----------
+        cells : list
+            List of column names from the header.
+        Returns:
+        -------
+        bool
+            True if the header contains the required columns, False otherwise.
+        """
+        # check if the header contain the required columns
+        if any(col in cells for col in self.required_columns):
+            return True
+        else:
+            return False
 
     def reformat(self):
         """
@@ -78,10 +98,5 @@ class Reformatter:
         """
         file_path = self._unzip_if_needed()
         df = self._read_file(file_path)
-        # Check columns and select required ones
-        missing_cols = [col for col in self.required_columns if col not in df.columns]
-        if missing_cols:
-            raise ValueError(f"Missing required columns: {missing_cols}")
-        df = df[self.required_columns]
         df.to_csv(self.reformated_path, index=False)
         print(f"Cleaned dataset saved to {self.reformated_path}")

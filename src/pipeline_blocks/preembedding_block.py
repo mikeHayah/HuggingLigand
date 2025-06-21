@@ -32,20 +32,21 @@ class PreEmbeddingBlock:
         print(f"Downloaded file: {downloader.filename}")
 
         # Reformat the dataset
-        reformated_csv_path=downloader.filename.replace('.zip', '_cleaned.csv'),
+        reformated_csv_path=downloader.filename.replace('.zip', '_cleaned.csv')
         reformatter = Reformatter(
             input_path=downloader.filename,
             reformated_path=reformated_csv_path,
-            required_columns=["BindingDB Ligand Name", "Ligand SMILES", "Target Name", "BindingDB Target Chain Sequence", "Ki (nM)", "IC50 (nM)", "Kd (nM)"]
+            required_columns=["Ligand SMILES", "BindingDB Target Chain Sequence", "Ki (nM)", "IC50 (nM)", "Kd (nM)"]
+            #required_columns=["BindingDB Ligand Name", "Ligand SMILES", "Target Name", "BindingDB Target Chain Sequence", "Ki (nM)", "IC50 (nM)", "Kd (nM)"]
         )
         reformatter.reformat()
         print(f"Reformatted dataset saved to: {reformatter.reformated_path}")
 
         # Load cleaned data
-        binding_data = BindingData(pd.read_csv(reformatter.reformated_path))
+        #binding_data = BindingData(pd.read_csv(reformatter.reformated_path))
 
         # Example pipeline usage
-        binding_data.clean_affinity(min_value=0.0)
+        #binding_data.clean_affinity(min_value=0.0)
         
 
         # Save as pickle
