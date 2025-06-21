@@ -6,7 +6,7 @@ from transformers import RobertaForMaskedLM, RobertaTokenizerFast, T5EncoderMode
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from src.modules.loader import load_chemberta_model, load_prott5_model
+from src.modules.loaders import load_chemberta_model, load_prott5_model
 
 
 @pytest.mark.slow

@@ -6,7 +6,7 @@ import torch
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from src.modules.embedding_utils import mean_pool_embedding
-from src.modules.loader import load_chemberta_model
+from src.modules.loaders import load_chemberta_model
 
 
 class ChembertaModel:
