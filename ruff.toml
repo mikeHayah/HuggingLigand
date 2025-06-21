@@ -1,0 +1,17 @@
+# ruff.toml
+
+line-length = 100
+target-version = "py311"
+
+[lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]  # Ignore line length if needed for readability
+fixable = ["ALL"]
+
+#[format]
+#docstring-code-format = true
+
+exclude = ["tests/data", "logs", ".venv", "__pycache__"]
+
+[lint.mccabe]
+max-complexity = 10
