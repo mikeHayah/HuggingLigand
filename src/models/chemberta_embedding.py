@@ -1,15 +1,13 @@
-import torch
-import numpy as np
-import sys
 import os
+import sys
 
-# Add the project root to the Python path if not already there
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
+import torch
 
-from src.modules.loader import load_chemberta_model
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from src.modules.embedding_utils import mean_pool_embedding
+from src.modules.loader import load_chemberta_model
+
 
 class ChembertaModel:
     """
@@ -36,17 +34,19 @@ class ChembertaModel:
             smiles_list (list of str): List of SMILES strings.
 
         Returns:
-            list of torch.Tensor: Mean-pooled sequence embeddings, one per input. 
+            list of torch.Tensor: Mean-pooled sequence embeddings, one per input.
         """
         inputs = self.tokenizer(smiles_list, return_tensors="pt", padding=True, truncation=True)
         input_ids = inputs["input_ids"].to(self.device)
         attention_mask = inputs["attention_mask"].to(self.device)
 
         with torch.no_grad():
-            outputs = self.model(input_ids=input_ids, attention_mask=attention_mask, output_hidden_states=True)
+            outputs = self.model(
+                input_ids=input_ids, attention_mask=attention_mask, output_hidden_states=True
+            )
 
         last_hidden_state = outputs.hidden_states[-1]
-        
+
         pooled = []
         for seq, emb, mask in zip(smiles_list, last_hidden_state, attention_mask, strict=False):
             if seq in self._cache:

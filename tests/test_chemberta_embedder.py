@@ -4,14 +4,15 @@ import sys
 import pytest
 import torch
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from src.models.chemberta_embedding import ChembertaModel
+
 
 @pytest.mark.slow
 def test_single_embedding():
     sequences = [
-        "CN1C=NC2=C1C(=O)N(C(=O)N2C)C" # caffeine
+        "CN1C=NC2=C1C(=O)N(C(=O)N2C)C"  # caffeine
     ]
 
     embedder = ChembertaModel(device="cpu")
@@ -23,13 +24,10 @@ def test_single_embedding():
 
     print("Test passed. Embedding shape:", embeddings[0].shape)
 
+
 @pytest.mark.slow
 def test_multiple_embeddings():
-    sequences = [
-        "C==C==O",
-        "C1=CC=CC=C1",
-        "CCO"
-    ]
+    sequences = ["C==C==O", "C1=CC=CC=C1", "CCO"]
 
     embedder = ChembertaModel(device="cpu")
     embeddings = embedder.embed(sequences)

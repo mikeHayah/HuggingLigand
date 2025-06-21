@@ -18,4 +18,4 @@ def mean_pool_embedding(embedding: torch.Tensor, mask: torch.Tensor) -> torch.Te
     torch.Tensor
         [hidden_dim] mean-pooled embedding.
     """
-    return embedding[:mask.sum()].mean(dim=0)
+    return embedding[: mask.sum()].mean(dim=0)

@@ -4,7 +4,7 @@ import sys
 
 import torch
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from src.modules.embedding_utils import mean_pool_embedding
 from src.modules.loaders import load_prott5_model

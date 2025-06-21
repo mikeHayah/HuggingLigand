@@ -1,9 +1,10 @@
-import pytest
-import sys
 import os
-from transformers import T5EncoderModel, T5Tokenizer, RobertaTokenizerFast, RobertaForMaskedLM
+import sys
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import pytest
+from transformers import RobertaForMaskedLM, RobertaTokenizerFast, T5EncoderModel, T5Tokenizer
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from src.modules.loader import load_chemberta_model, load_prott5_model
 
