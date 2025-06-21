@@ -4,9 +4,9 @@ import sys
 import pytest
 import torch
 
-from src.models.protT5_embedding import ProtT5Embedder
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+from src.models.protT5_embedding import ProtT5Embedder
 
 @pytest.mark.slow
 def test_embedder():

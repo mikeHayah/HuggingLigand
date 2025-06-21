@@ -28,5 +28,3 @@ def test_load_chemberta_model():
     assert model.device.type == "cpu", "Model should be on CPU"
 
     print("Model and tokenizer loaded successfully")
-
-test_load_chemberta_model()
