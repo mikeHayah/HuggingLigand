@@ -1,5 +1,5 @@
 import torch
-from transformers import T5EncoderModel, T5Tokenizer, AutoModelForMaskedLM, AutoTokenizer
+from transformers import AutoModelForMaskedLM, AutoTokenizer, T5EncoderModel, T5Tokenizer
 
 
 def load_chemberta_model(device: torch.device):
