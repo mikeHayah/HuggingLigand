@@ -43,10 +43,15 @@ class PreEmbeddingBlock:
         print(f"Reformatted dataset saved to: {reformatter.reformated_path}")
 
         # Load cleaned data
-        #binding_data = BindingData(pd.read_csv(reformatter.reformated_path))
+        my_binding_data = BindingData(pd.read_csv(reformatter.reformated_path))
 
         # Example pipeline usage
-        #binding_data.clean_affinity(min_value=0.0)
+        #lig, pro = my_binding_data.decouple()
+        lig, pro = my_binding_data.pipeline(['decouple'])
+
+        print(f"Extracted ligands: {lig.head()}")
+        print(f"Extracted proteins: {pro.head()}")
+
         
 
         # Save as pickle

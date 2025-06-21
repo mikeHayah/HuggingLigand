@@ -5,11 +5,21 @@ class BindingData(pd.DataFrame):
     A DataFrame wrapper with extended functionality for binding affinity datasets.
     """
 
-    _metadata = ['source']
+    _metadata = ['operations']
+    operations = {}
 
     def __init__(self, *args, **kwargs):
-        self.source = kwargs.pop('source', None)
         super().__init__(*args, **kwargs)
+        # Map available functionality to internal methods
+        self.operations = {
+            'ligands': self.get_ligands,
+            'proteins': self.get_proteins,
+            'decouple': self.decouple,
+            'couple': self.couple, 
+            'csv': self.to_csv_file,
+            'pickle': self.to_pickle_file,
+            'jsonl': self.to_jsonl_file,
+        }
 
     @property
     def _constructor(self):
@@ -37,23 +47,90 @@ class BindingData(pd.DataFrame):
         self = self[self['affinity'] >= min_value]
         return self
 
-    def encode_smiles(self, encoder_func):
+    def get_ligands(self):
         """
-        Apply a function to encode SMILES strings (for example tokenization).
+        Extract ligands from the dataset.
+        Returns
+        -------
+        pd.Series
+            Series of unique ligands.
         """
-        if 'smiles' not in self.columns:
-            raise ValueError("SMILES column not found.")
-        self['encoded_smiles'] = self['smiles'].apply(encoder_func)
-        return self
+        if 'Ligand SMILES' not in self.columns:
+            raise ValueError("Ligand SMILES column not found in dataset.")
+        return self[['Ligand SMILES']]
+    
+    def get_proteins(self):
+        """
+        Extract proteins from the dataset.
+        Returns
+        -------
+        pd.Series
+            Series of unique proteins.
+        """
+        if 'BindingDB Target Chain Sequence' not in self.columns:
+            raise ValueError("BindingDB Target Chain Sequence column not found in dataset.")
+        return self[['BindingDB Target Chain Sequence']]
+    
+    def decouple(self):
+        """
+        Split the DataFrame into two separate DataFrames: one for ligands and one for proteins.
+        Returns
+        -------
+        tuple
+            A tuple containing two DataFrames: (ligands_df, proteins_df).
+        """
+        ligands_df = self[['Ligand SMILES']]
+        proteins_df = self[['BindingDB Target Chain Sequence']]
+        return ligands_df, proteins_df
+    
+    def couple(self, ligands_df, proteins_df):
+        """
+        Combine two DataFrames: one for ligands and one for proteins, into a single DataFrame.
+        Parameters
+        ----------
+        ligands_df : pd.DataFrame
+            DataFrame containing ligands.
+        proteins_df : pd.DataFrame
+            DataFrame containing proteins.
+        Returns
+        -------
+        BindingData
+            Combined DataFrame with ligands and proteins.
+        """
+        combined_df = pd.merge(ligands_df, proteins_df, left_index=True, right_index=True)
+        return BindingData(combined_df)
+
+    def apply(self, operation, *args, **kwargs):
+        """
+        Apply a specified operation to the DataFrame.
+        Parameters:
+        ----------
+        operation : str
+            The name of the operation to apply.
+        *args, **kwargs : additional arguments
+            Additional arguments to pass to the operation.
+        """
+        if isinstance(operation, str):
+            if operation in self.operations:
+                return self.operations[operation](*args, **kwargs)
+
+            else:
+                raise ValueError(f"No operation named '{operation}'")
+        else:
+            raise TypeError("Operation must be a string referring to a cleaning function")
 
     def pipeline(self, ops):
         """
-        Apply a sequence of operations by name.
+        Apply a series of operations to the DataFrame.
+        Parameters:
+        ----------
+        ops : list of str
+            A list of operations to apply.
         """
+        result = self
         for op in ops:
-            method = getattr(self, op, None)
-            if callable(method):
-                method()
-            else:
-                raise ValueError(f"No method named {op} found.")
-        return self
+            result = result.apply(op)
+            # If the operation returns something other than a DataFrame, stop and return it
+            if not isinstance(result, BindingData):
+                return result
+        return result
