@@ -1,10 +1,7 @@
 [project]
 name = "huggingligand"
 version = "0.1.0"
-description = "Protein embedding and analysis using ProtT5 and ChemBERTa"
-authors = [
-    {name = "RamyBoulos",email = "ramyboulos@gmail.com"}
-]
+description = "DeepLearning pipeline designed for predicting the binding affinity between proteins and ligands"
 license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.10,<3.12"
@@ -12,12 +9,19 @@ dependencies = [
     "torch (>=2.7.1,<3.0.0)",
     "transformers (>=4.52.4,<5.0.0)",
     "click (>=8.2.1,<9.0.0)",
-    "sentencepiece (>=0.2.0,<0.3.0)"
+    "sentencepiece (>=0.2.0,<0.3.0)",
+    "requests",
+    "numpy",
+    "pandas",
+    "tqdm"
 ]
 
 [tool.poetry]
 name = "huggingligand"
-<<<<<<< HEAD
+description = "Protein embedding and analysis using ProtT5 and ChemBERTa"
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.10,<3.12"
 packages = [
     { include = "models", from = "src" },
     { include = "modules", from = "src" },
@@ -28,22 +32,13 @@ packages = [
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.0"
 ruff = "^0.12.0"
-=======
-packages = [{ include = "models" }]
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.4.0"
->>>>>>> 5cf6f60 (update file structure of the project)
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
-<<<<<<< HEAD
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')"
 ]
-=======
->>>>>>> 5cf6f60 (update file structure of the project)
