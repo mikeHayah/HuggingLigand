@@ -17,6 +17,7 @@ dependencies = [
 
 [tool.poetry]
 name = "huggingligand"
+<<<<<<< HEAD
 packages = [
     { include = "models", from = "src" },
     { include = "modules", from = "src" },
@@ -27,13 +28,22 @@ packages = [
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.0"
 ruff = "^0.12.0"
+=======
+packages = [{ include = "models" }]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.0"
+>>>>>>> 5cf6f60 (update file structure of the project)
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+<<<<<<< HEAD
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')"
 ]
+=======
+>>>>>>> 5cf6f60 (update file structure of the project)
