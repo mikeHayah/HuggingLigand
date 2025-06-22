@@ -21,6 +21,9 @@ class PreEmbeddingBlock:
         self.download_url = download_url
         self.raw_data_path = "data/raw"
         self.output_path = "data/processed"
+        self.ligand = None
+        self.protein = None 
+        
 
     def run(self):
         """
@@ -47,13 +50,10 @@ class PreEmbeddingBlock:
 
         # Example pipeline usage
         #lig, pro = my_binding_data.decouple()
-        lig, pro = my_binding_data.pipeline(['decouple'])
+        self.ligand, self.protein = my_binding_data.pipeline(['decouple'])
 
-        print(f"Extracted ligands: {lig.head()}")
-        print(f"Extracted proteins: {pro.head()}")
+    def get_output(self):
+       
+        return self.ligand, self.protein
 
         
-
-        # Save as pickle
-        #binding_data.to_pickle_file("data/binding_data.pkl")
-        #binding_data.to_csv_file("data/binding_data_cleaned.csv")
