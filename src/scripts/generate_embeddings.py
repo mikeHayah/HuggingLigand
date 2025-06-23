@@ -14,5 +14,7 @@ myligands_embd, myproteins_embd = embdblk.get_output()
 data_directory = 'data/embeddings'
 if not os.path.exists(data_directory):
     os.makedirs(data_directory)
-myligands_embd.to_csv(data_directory, index=False)
-myproteins_embd.to_csv(data_directory, index=False)
+if myligands_embd is not None:
+    myligands_embd.to_csv(os.path.join(data_directory,'ligands_embeddings.csv'), index=False)
+if myproteins_embd is not None:
+    myproteins_embd.to_csv(os.path.join(data_directory,'proteins_embeddings.csv'), index=False)
