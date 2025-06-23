@@ -1,8 +1,10 @@
 from pipeline_blocks.preembedding_block import PreEmbeddingBlock
 from pipeline_blocks.embedding_block import EmbeddingBlock
 import os
+import pandas
 
-prembdblk = PreEmbeddingBlock('https://www.bindingdb.org/rwd/bind/downloads/BindingDB_Covid-19_202506_tsv.zip')
+prembdblk = PreEmbeddingBlock('https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip')
+#optional for full dataset use url: https://www.bindingdb.org/rwd/bind/downloads/BindingDB_All_202506_tsv.zip
 prembdblk.run()
 myligands, myproteins = prembdblk.get_output()
 embdblk = EmbeddingBlock()
@@ -12,5 +14,5 @@ myligands_embd, myproteins_embd = embdblk.get_output()
 data_directory = 'data/embeddings'
 if not os.path.exists(data_directory):
     os.makedirs(data_directory)
-myligands_embd.toself.reformated_path_csv(data_directory, index=False)
+myligands_embd.to_csv(data_directory, index=False)
 myproteins_embd.to_csv(data_directory, index=False)
