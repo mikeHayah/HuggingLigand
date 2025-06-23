@@ -32,6 +32,7 @@ logs/
 coverage.xml
 htmlcov/
 
+
 # Cache and artifacts
 *.cache/
 .cache/
