@@ -1,8 +1,11 @@
 from pipeline_blocks.preembedding_block import PreEmbeddingBlock
 from pipeline_blocks.embedding_block import EmbeddingBlock
 import os
+import pandas as pd
 
-prembdblk = PreEmbeddingBlock('https://www.bindingdb.org/rwd/bind/downloads/BindingDB_Covid-19_202506_tsv.zip')
+
+prembdblk = PreEmbeddingBlock('https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip')
+#optional for full dataset use url: https://www.bindingdb.org/rwd/bind/downloads/BindingDB_All_202506_tsv.zip
 prembdblk.run()
 myligands, myproteins = prembdblk.get_output()
 embdblk = EmbeddingBlock()
