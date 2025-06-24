@@ -7,31 +7,30 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from models.protT5_embedding import ProtT5Embedder
 
-class EmbeddingBlock:
+class Prott5EmbeddingBlock:
     """
     Preprocessing block for binding affinity datasets.
     Downloads raw data, reformats it, and prepares it for embedding.
     """
 
     def __init__(self):
-        self.ligands = None
         self.proteins = None
-        self.ligands_embd = None
         self.proteins_embd = None
 
 
-    def set_input(self, ligands, proteins):
+    def set_input(self, proteins):
         """
-        Set the input ligands and proteins.
+        Set the input proteins.
         """
-        self.ligands = ligands
         self.proteins = proteins
+
 
     def get_output(self):
         """
-        Get the processed ligands and proteins.
+        Get the processed proteins.
         """
-        return self.ligands_embd, self.proteins_embd
+        return self.proteins_embd
+    
     
     def run(self):
         """

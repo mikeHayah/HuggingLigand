@@ -1,0 +1,13 @@
+Some weights of the model checkpoint at seyonec/ChemBERTa-zinc-base-v1 were not used when initializing RobertaForMaskedLM: ['roberta.pooler.dense.bias', 'roberta.pooler.dense.weight']
+- This IS expected if you are initializing RobertaForMaskedLM from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing RobertaForMaskedLM from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+CPU optimization: Using 16 threads
+File data/raw/BindingDB_BindingDB_Articles_202506_tsv.zip already exists. Skipping download.
+Downloaded file: data/raw/BindingDB_BindingDB_Articles_202506_tsv.zip
+Cleaned dataset saved to data/raw/BindingDB_BindingDB_Articles_202506_tsv_cleaned.csv
+Reformatted dataset saved to: data/raw/BindingDB_BindingDB_Articles_202506_tsv_cleaned.csv
+Total number of ligands to process: 94216
+Processing 94216 ligands on cpu
+Removed old temporary file: temp_ligand_embeddings_12800.pkl
+Processing chunks:   0%|          | 0/37 [00:00<?, ?chunk/s]
+Processing batches:   0%|          | 0/20 [00:00<?, ?batch/s][A

@@ -31,7 +31,6 @@ logs/
 coverage.xml
 htmlcov/
 
-
 # Cache and artifacts
 *.cache/
 .cache/
@@ -57,6 +56,9 @@ results/
 *.csv
 *.tsv
 *.jsonl
+
+# Datasets
+data/
 
 # Hugging Face / model data
 *.model
