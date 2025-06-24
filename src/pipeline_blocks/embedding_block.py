@@ -40,6 +40,14 @@ class EmbeddingBlock:
         if self.proteins is None:
             raise ValueError("Proteins input not set. Use set_input() before calling run().")
 
+        # Debug print statements
+        print("Type of self.proteins:", type(self.proteins))
+        if isinstance(self.proteins, list):
+            print("First 2 sequences:", self.proteins[:2])
+            print("Length of self.proteins:", len(self.proteins))
+        else:
+            print("self.proteins content:", self.proteins)
+
         device = "cuda" if torch.cuda.is_available() else "cpu"
         embedder = ProtT5Embedder(device=device)
         self.proteins_embd = embedder.embed(self.proteins)
