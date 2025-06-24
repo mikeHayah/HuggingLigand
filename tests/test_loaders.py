@@ -1,4 +1,3 @@
-import pytest
 from transformers import T5EncoderModel, T5Tokenizer
 
 from modules.loaders import load_prott5_model
