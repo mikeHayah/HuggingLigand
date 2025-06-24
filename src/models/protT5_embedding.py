@@ -1,9 +1,13 @@
 import logging
+import os
+import sys
 
 import torch
 
-from modules.embedding_utils import mean_pool_embedding
-from modules.loaders import load_prott5_model
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from src.modules.embedding_utils import mean_pool_embedding
+from src.modules.loaders import load_prott5_model
 
 logger = logging.getLogger(__name__)
 
