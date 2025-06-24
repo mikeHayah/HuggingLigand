@@ -1,0 +1,27 @@
+image: python:3.11
+
+variables:
+  POETRY_VERSION: "1.8.2"
+  POETRY_VIRTUALENVS_CREATE: "true"
+  POETRY_VIRTUALENVS_IN_PROJECT: "true"
+  PIP_NO_CACHE_DIR: "off"
+  PIP_DISABLE_PIP_VERSION_CHECK: "on"
+
+before_script:
+  - python -m pip install --upgrade pip
+  - pip install poetry==${POETRY_VERSION}
+  - poetry install --no-root
+
+stages:
+  - lint
+  - test
+
+lint:
+  stage: lint
+  script:
+    - poetry run ruff check .
+
+test:
+  stage: test
+  script:
+    - poetry run pytest -m "not slow"

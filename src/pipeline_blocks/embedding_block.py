@@ -1,4 +1,13 @@
 
+
+import sys
+import os
+
+# Add the src directory to PYTHONPATH at runtime
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from models.protT5_embedding import ProtT5Embedder
+
 class EmbeddingBlock:
     """
     Preprocessing block for binding affinity datasets.
@@ -27,9 +36,12 @@ class EmbeddingBlock:
     
     def run(self):
         """
-        Run the preprocessing steps.
-        This method should be implemented to perform the actual data processing.
+        Run the embedding step for the provided proteins.
         """
-        # Placeholder for actual implementation
-        # For example, create embedings, etc.
-        pass
+        if self.proteins is None:
+            raise ValueError("Proteins input not set. Use set_input() before calling run().")
+
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        embedder = ProtT5Embedder(device=device)
+        self.proteins_embd = embedder.embed(self.proteins)
+        

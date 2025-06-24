@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
 from pipeline_blocks.preembedding_block import PreEmbeddingBlock
 from pipeline_blocks.embedding_block import EmbeddingBlock
 import os
