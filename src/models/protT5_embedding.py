@@ -2,6 +2,7 @@ import sys
 import os
 import logging
 import torch
+import pandas as pd
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
@@ -37,7 +38,7 @@ class ProtT5Embedder:
         self.tokenizer, self.model = load_prott5_model(self.device)
         self._cache = {}
 
-    def embed(self, sequences: list[str]) -> list[torch.Tensor]:
+    def embed(self, sequences: list[str]) -> list[list[float]]:
         """
         Generates mean-pooled ProtT5 embeddings for the given protein sequences.
 
@@ -48,8 +49,8 @@ class ProtT5Embedder:
 
         Returns
         -------
-        list of torch.Tensor
-            Mean-pooled sequence embeddings for each protein sequence.
+        list of list of float
+            Each inner list represents the embedding vector (as floats) for one protein sequence.
         """
         formatted_seqs = [" ".join(list(seq.strip())) for seq in sequences]
         inputs = self.tokenizer(formatted_seqs, return_tensors="pt", padding=True)
@@ -66,7 +67,8 @@ class ProtT5Embedder:
                 pooled.append(self._cache[seq])
             else:
                 mean_emb = mean_pool_embedding(emb, mask)
-                self._cache[seq] = mean_emb
-                pooled.append(mean_emb)
+                mean_emb_list = mean_emb.tolist()
+                self._cache[seq] = mean_emb_list
+                pooled.append(mean_emb_list)
 
-        return pooled
+        return pd.DataFrame(pooled)
