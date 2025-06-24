@@ -52,10 +52,11 @@ class ProtT5Embedder:
         if not os.path.exists(csv_path):
             raise FileNotFoundError(f"CSV file not found: {csv_path}")
 
+        df = pd.read_csv(csv_path)
+
         if 'BindingDB Target Chain Sequence' not in df.columns:
             raise ValueError("CSV must contain a 'BindingDB Target Chain Sequence' column.")
 
-        df = pd.read_csv(csv_path)
         sequences = df['BindingDB Target Chain Sequence'].dropna().tolist()
 
         formatted_seqs = [" ".join(list(seq.strip())) for seq in sequences]
@@ -68,7 +69,7 @@ class ProtT5Embedder:
             embeddings = outputs.last_hidden_state
 
         pooled = []
-        for seq, emb, mask in zip(sequences, embeddings, attention_mask, strict=False):
+        for seq, emb, mask in zip(sequences, embeddings, attention_mask):
             if seq in self._cache:
                 pooled.append(self._cache[seq])
             else:
