@@ -6,6 +6,7 @@ variables:
   POETRY_VIRTUALENVS_IN_PROJECT: "true"
   PIP_NO_CACHE_DIR: "off"
   PIP_DISABLE_PIP_VERSION_CHECK: "on"
+  PYTHONPATH: "$CI_PROJECT_DIR/src"
 
 before_script:
   - python -m pip install --upgrade pip
