@@ -1,8 +1,10 @@
+import pytest
 from transformers import T5EncoderModel, T5Tokenizer
 
 from modules.loaders import load_prott5_model
 
 
+@pytest.mark.slow
 def test_load_prott5_model():
     tokenizer, model = load_prott5_model(device="cpu")
 
