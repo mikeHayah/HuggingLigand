@@ -4,9 +4,10 @@ import sys
 import pytest
 import torch
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from src.models.protT5_embedding import ProtT5Embedder
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
 @pytest.mark.slow
 def test_embedder():
@@ -18,6 +19,7 @@ def test_embedder():
     assert embeddings[0].shape == (1024,), "Each embedding should be 1024-dimensional"
 
     print("Test passed. Embedding shape:", embeddings[0].shape)
+
 
 if __name__ == "__main__":
     test_embedder()

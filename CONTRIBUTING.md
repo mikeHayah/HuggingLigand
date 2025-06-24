@@ -84,16 +84,13 @@ pre-commit install
 ### Python Style
 
 - Follow [PEP 8](https://pep8.org/)
-- Use [flake8](https://flake8.pycqa.org/) for linting
+- Use [ruff](https://docs.astral.sh/ruff/) for linting
 
 ### Code Quality
 
 ```bash
 # Check linting
-flake8 src/ tests/
-
-# Type checking
-mypy src/
+ruff check .
 ```
 
 ### Naming Conventions
@@ -135,7 +132,7 @@ def predict_binding_affinity(
 
 ```bash
 # Run all tests
-pytest
+pytest tests/
 
 # Run with coverage
 pytest --cov=src
