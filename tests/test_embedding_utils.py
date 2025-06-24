@@ -5,13 +5,15 @@ from modules.embedding_utils import mean_pool_embedding
 
 def test_mean_pool_embedding():
     # Simulate a sequence of 5 tokens, each with 4-dim embedding
-    embedding = torch.tensor([
-        [1.0, 1.0, 1.0, 1.0],   # valid
-        [2.0, 2.0, 2.0, 2.0],   # valid
-        [3.0, 3.0, 3.0, 3.0],   # valid
-        [0.0, 0.0, 0.0, 0.0],   # padding
-        [0.0, 0.0, 0.0, 0.0]    # padding
-    ])
+    embedding = torch.tensor(
+        [
+            [1.0, 1.0, 1.0, 1.0],  # valid
+            [2.0, 2.0, 2.0, 2.0],  # valid
+            [3.0, 3.0, 3.0, 3.0],  # valid
+            [0.0, 0.0, 0.0, 0.0],  # padding
+            [0.0, 0.0, 0.0, 0.0],  # padding
+        ]
+    )
     mask = torch.tensor([1, 1, 1, 0, 0])  # 3 valid tokens
 
     pooled = mean_pool_embedding(embedding, mask)
