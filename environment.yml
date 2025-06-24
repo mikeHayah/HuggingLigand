@@ -1,0 +1,12 @@
+name: env-hugligand
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - requests
+  - numpy
+  - pandas
+  - tqdm
+  - transformers
+   
