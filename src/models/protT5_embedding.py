@@ -38,28 +38,20 @@ class ProtT5Embedder:
         self.tokenizer, self.model = load_prott5_model(self.device)
         self._cache = {}
 
-    def embed(self) -> list[torch.Tensor]:
+    def embed(self, sequences: list[str]) -> list[torch.Tensor]:
         """
-        Reads protein sequences from a relative CSV file and returns their mean-pooled ProtT5 embeddings.
+        Generates mean-pooled ProtT5 embeddings for the given protein sequences.
+
+        Parameters
+        ----------
+        sequences : list of str
+            A list of raw amino acid sequences.
 
         Returns
         -------
         list of torch.Tensor
-            Mean-pooled sequence embeddings for each protein sequence in the input file.
+            Mean-pooled sequence embeddings for each protein sequence.
         """
-        csv_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "embeddings", "proteins_embeddings.csv")
-        csv_path = os.path.abspath(csv_path)
-
-        if not os.path.exists(csv_path):
-            raise FileNotFoundError(f"CSV file not found: {csv_path}")
-
-        df = pd.read_csv(csv_path)
-
-        if 'BindingDB Target Chain Sequence' not in df.columns:
-            raise ValueError("CSV must contain a 'BindingDB Target Chain Sequence' column.")
-
-        sequences = df['BindingDB Target Chain Sequence'].dropna().tolist()
-
         formatted_seqs = [" ".join(list(seq.strip())) for seq in sequences]
         inputs = self.tokenizer(formatted_seqs, return_tensors="pt", padding=True)
         input_ids = inputs["input_ids"].to(self.device)
