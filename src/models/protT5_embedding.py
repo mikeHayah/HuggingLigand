@@ -38,37 +38,48 @@ class ProtT5Embedder:
         self.tokenizer, self.model = load_prott5_model(self.device)
         self._cache = {}
 
-    def embed(self, sequences: list[str]) -> list[list[float]]:
+    def embed(self, sequences: list[str], batch_size: int = 4) -> pd.DataFrame:
         """
-        Generates mean-pooled ProtT5 embeddings for the given protein sequences.
+        Generates mean-pooled ProtT5 embeddings for the given protein sequences in batches.
 
         Parameters
         ----------
         sequences : list of str
             A list of raw amino acid sequences.
+        batch_size : int
+            Number of sequences to process at a time to reduce memory usage.
 
         Returns
         -------
-        list of list of float
-            Each inner list represents the embedding vector (as floats) for one protein sequence.
+        pd.DataFrame
+            A DataFrame where each row is the embedding vector for a protein sequence.
         """
-        formatted_seqs = [" ".join(list(seq.strip())) for seq in sequences]
-        inputs = self.tokenizer(formatted_seqs, return_tensors="pt", padding=True)
-        input_ids = inputs["input_ids"].to(self.device)
-        attention_mask = inputs["attention_mask"].to(self.device)
+        sequences = sequences.iloc[:, 0].tolist()  # Assume input is always a DataFrame
 
-        with torch.no_grad():
-            outputs = self.model(input_ids=input_ids, attention_mask=attention_mask)
-            embeddings = outputs.last_hidden_state
+        sequences = sequences[:1000]  # LIMIT FOR DEBUGGING
 
-        pooled = []
-        for seq, emb, mask in zip(sequences, embeddings, attention_mask):
-            if seq in self._cache:
-                pooled.append(self._cache[seq])
-            else:
-                mean_emb = mean_pool_embedding(emb, mask)
-                mean_emb_list = mean_emb.tolist()
-                self._cache[seq] = mean_emb_list
-                pooled.append(mean_emb_list)
+        all_embeddings = []
 
-        return pd.DataFrame(pooled)
+        for i in range(0, len(sequences), batch_size):
+            batch = sequences[i:i + batch_size]
+            formatted_seqs = [" ".join(list(seq.strip())) for seq in batch]
+            inputs = self.tokenizer(formatted_seqs, return_tensors="pt", padding=True)
+            input_ids = inputs["input_ids"].to(self.device)
+            attention_mask = inputs["attention_mask"].to(self.device)
+
+            with torch.no_grad():
+                outputs = self.model(input_ids=input_ids, attention_mask=attention_mask)
+                embeddings = outputs.last_hidden_state
+
+            for seq, emb, mask in zip(batch, embeddings, attention_mask):
+                if seq in self._cache:
+                    all_embeddings.append(self._cache[seq])
+                else:
+                    mean_emb = mean_pool_embedding(emb, mask).cpu()
+                    mean_emb_list = mean_emb.tolist()
+                    self._cache[seq] = mean_emb_list
+                    all_embeddings.append(mean_emb_list)
+
+            torch.cuda.empty_cache()
+
+        return pd.DataFrame(all_embeddings)
