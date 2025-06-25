@@ -16,6 +16,7 @@ before_script:
 stages:
   - lint
   - test
+  - docs
 
 lint:
   stage: lint
@@ -26,3 +27,12 @@ test:
   stage: test
   script:
     - poetry run pytest -m "not slow"
+
+docs:
+  stage: docs
+  script:
+    - poetry run python docs/config/generate_api_rst.py
+    - poetry run sphinx-build -b html docs/config/ public/
+  artifacts:
+    paths:
+      - public

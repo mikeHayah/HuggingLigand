@@ -4,10 +4,10 @@ import sys
 import torch
 from tqdm import tqdm
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
-from src.modules.embedding_utils import mean_pool_embedding
-from src.modules.loaders import load_chemberta_model
+from modules.embedding_utils import mean_pool_embedding
+from modules.loaders import load_chemberta_model
 
 
 class ChembertaModel:
@@ -20,7 +20,6 @@ class ChembertaModel:
         Initialize the ChembertaModel with a specified model name and device.
 
         Args:
-            model_name (str): The name of the pre-trained ChemBERTa model.
             device (str): The device to run the model on, e.g., "cpu" or "cuda".
         """
         self.device = torch.device(device)
