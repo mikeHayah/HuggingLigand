@@ -50,5 +50,4 @@ class EmbeddingBlock:
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
         embedder = ProtT5Embedder(device=device)
-        self.proteins_embd = embedder.embed(self.proteins)
-        
+        self.proteins_embd = embedder.embed(self.proteins, show_progress=True)

@@ -1,44 +1,38 @@
-import sys
 import os
-import logging
+import sys
 import torch
+from tqdm import tqdm
 import pandas as pd
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-
-from modules.embedding_utils import mean_pool_embedding
-from modules.loaders import load_prott5_model
-
-logger = logging.getLogger(__name__)
+from src.modules.embedding_utils import mean_pool_embedding
+from src.modules.loaders import load_prott5_model
 
 
 class ProtT5Embedder:
     """
-    Generate protein embeddings using the ProtT5-XL-UniRef50 model.
-
-    Parameters
-    ----------
-    device : str, optional
-        Torch device to use ('cuda' or 'cpu'). Default is 'cpu'.
-
-    Attributes
-    ----------
-    tokenizer : T5Tokenizer
-        Tokenizer for the ProtT5 model.
-    model : T5EncoderModel
-        Encoder model for generating embeddings.
-    device : torch.device
-        Computation device.
+    A class to generate protein embeddings using the ProtT5 model.
     """
 
     def __init__(self, device: str = "cpu"):
+        """
+        Initialize the ProtT5Embedder.
+
+        Args:
+            device (str): The device to run the model on ('cpu' or 'cuda').
+        """
         self.device = torch.device(device)
-        logger.info(f"Using device: {self.device}")
         self.tokenizer, self.model = load_prott5_model(self.device)
+        self.model.eval()
+
+        if self.device.type == "cpu":
+            torch.set_num_threads(torch.get_num_threads())
+            torch.jit.optimized_execution(True)
+
         self._cache = {}
 
-    def embed(self, sequences: list[str], batch_size: int = 4) -> pd.DataFrame:
+    def embed(self, sequences: list[str], batch_size: int = 4, show_progress: bool = False, full_data: bool = False) -> pd.DataFrame:
         """
         Generates mean-pooled ProtT5 embeddings for the given protein sequences in batches.
 
@@ -48,19 +42,31 @@ class ProtT5Embedder:
             A list of raw amino acid sequences.
         batch_size : int
             Number of sequences to process at a time to reduce memory usage.
+        show_progress : bool
+            Whether to display a progress bar during embedding.
+        full_data : bool
+            Whether to use the full dataset or limit to 1000 sequences.
 
         Returns
         -------
         pd.DataFrame
             A DataFrame where each row is the embedding vector for a protein sequence.
         """
-        sequences = sequences.iloc[:, 0].tolist()  # Assume input is always a DataFrame
+        if isinstance(sequences, pd.DataFrame):
+            sequences = sequences.iloc[:, 0].tolist()
+            if not full_data:
+                sequences = sequences[:1000]
 
-        sequences = sequences[:1000]  # LIMIT FOR DEBUGGING
+        if show_progress and len(sequences) > batch_size:
+            batch_range = tqdm(range(0, len(sequences), batch_size), desc="Processing batches", unit="batch", leave=False)
+        else:
+            batch_range = range(0, len(sequences), batch_size)
+
+        # sequences = sequences[:100000]  # LIMIT FOR DEBUGGING
 
         all_embeddings = []
 
-        for i in range(0, len(sequences), batch_size):
+        for i in batch_range:
             batch = sequences[i:i + batch_size]
             formatted_seqs = [" ".join(list(seq.strip())) for seq in batch]
             inputs = self.tokenizer(formatted_seqs, return_tensors="pt", padding=True)
