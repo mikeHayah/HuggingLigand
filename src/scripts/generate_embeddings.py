@@ -3,13 +3,6 @@ import os
 import torch
 import multiprocessing as mp
 
-# Optimize CPU settings before importing other modules
-cpu_cores = mp.cpu_count()
-torch.set_num_threads(cpu_cores)
-torch.set_num_interop_threads(1)
-os.environ['OMP_NUM_THREADS'] = str(cpu_cores)
-os.environ['MKL_NUM_THREADS'] = str(cpu_cores)
-
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from pipeline_blocks.preembedding_block import PreEmbeddingBlock
@@ -17,6 +10,13 @@ from pipeline_blocks.prott5_embedding_block import Prott5EmbeddingBlock
 from pipeline_blocks.chemberta_embedding_block import ChembertaEmbeddingBlock
 
 if __name__ == "__main__":
+
+    # Optimize CPU settings before importing other modules
+    cpu_cores = mp.cpu_count()
+    torch.set_num_threads(cpu_cores)
+    torch.set_num_interop_threads(1)
+    os.environ['OMP_NUM_THREADS'] = str(cpu_cores)
+    os.environ['MKL_NUM_THREADS'] = str(cpu_cores)
 
     print(f"CPU optimization: Using {cpu_cores} threads")
 
