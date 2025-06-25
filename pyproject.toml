@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "huggingligand"
-version = "0.1.0"
+version = "1.0.1"
 description = "Protein embedding and analysis with ProtT5"
 authors = [
     "Ramy Boulos",
@@ -22,6 +22,7 @@ transformers = ">=4.52.4,<5.0.0"
 sentencepiece = ">=0.2.0,<0.3.0"
 click = ">=8.2.1,<9.0.0"
 pandas = ">=2.3.0,<3.0.0"
+tqdm = ">=4.66.0,<5.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.1"
