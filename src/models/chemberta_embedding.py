@@ -59,7 +59,7 @@ class ChembertaModel:
         # Process in batches to avoid memory issues
         for i in batch_range:
             batch = smiles_list[i:i + batch_size]
-            batch_embeddings = []
+            batch_embeddings = [None] * len(batch)  # Pre-allocate with correct size
             
             # Check cache first for this batch
             uncached_smiles = []
@@ -67,7 +67,7 @@ class ChembertaModel:
             
             for j, seq in enumerate(batch):
                 if seq in self._cache:
-                    batch_embeddings.append(self._cache[seq])
+                    batch_embeddings[j] = self._cache[seq]  # Place at correct position
                 else:
                     uncached_smiles.append(seq)
                     uncached_indices.append(j)
@@ -80,7 +80,6 @@ class ChembertaModel:
                     return_tensors="pt", 
                     padding=True, 
                     truncation=True,
-                    max_length=512,  # Limit max length for speed
                     add_special_tokens=True,
                     return_attention_mask=True
                 )
@@ -98,17 +97,11 @@ class ChembertaModel:
 
                 last_hidden_state = outputs.hidden_states[-1]
 
-                # Process uncached embeddings
-                uncached_embeddings = []
-                for seq, emb, mask in zip(uncached_smiles, last_hidden_state, attention_mask, strict=False):
+                # Process uncached embeddings and place at correct positions
+                for idx, (seq, emb, mask) in enumerate(zip(uncached_smiles, last_hidden_state, attention_mask, strict=False)):
                     mean_emb = mean_pool_embedding(emb, mask)
                     self._cache[seq] = mean_emb
-                    uncached_embeddings.append(mean_emb)
-                
-                # Insert uncached embeddings back into their correct positions
-                uncached_iter = iter(uncached_embeddings)
-                for j in uncached_indices:
-                    batch_embeddings.insert(j, next(uncached_iter))
+                    batch_embeddings[uncached_indices[idx]] = mean_emb  # Place at correct position
                 
                 # Clear intermediate variables to free memory
                 del inputs, input_ids, attention_mask, outputs, last_hidden_state
@@ -118,7 +111,7 @@ class ChembertaModel:
             all_embeddings.extend(batch_embeddings)
             
             # Clear cache periodically to prevent unlimited memory growth
-            if len(self._cache) > 10000:  # Adjust this threshold as needed
+            if len(self._cache) > 10 ** 6:  # Adjust this threshold as needed
                 if not show_progress:  # Only print if not using progress bar
                     print("Clearing embedding cache to free memory...")
                 self._cache.clear()
