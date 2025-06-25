@@ -25,6 +25,10 @@ def run_similarity_analysis(ligands_df, ligands_embd_df, text_only, output_dir):
         from rdkit import Chem
         from rdkit.DataStructs import BulkTanimotoSimilarity
         from rdkit.Chem import AllChem
+        from rdkit import rdBase
+        import matplotlib
+        if not text_only:
+            matplotlib.use('Qt5Agg')
         import matplotlib.pyplot as plt
         import seaborn as sns
         from sklearn.metrics.pairwise import cosine_similarity
@@ -33,6 +37,9 @@ def run_similarity_analysis(ligands_df, ligands_embd_df, text_only, output_dir):
         click.echo("WARNING: Please install 'rdkit-pypi', 'scikit-learn', 'matplotlib', and 'seaborn' to run similarity analysis.")
         return
 
+    # Suppress RDKit warnings to avoid cluttering the output
+    rdBase.DisableLog('rdApp.warning')
+
     logging.info("Starting ligand similarity analysis...")
 
     # --- 2. Data Sampling ---
@@ -40,6 +47,7 @@ def run_similarity_analysis(ligands_df, ligands_embd_df, text_only, output_dir):
     sample_size = min(100, len(ligands_embd_df))
     if sample_size < 2:
         logging.warning("Not enough data to run ligand similarity analysis.")
+        rdBase.EnableLog('rdApp.warning')
         return
         
     sample_indices = np.random.choice(ligands_embd_df.index, sample_size, replace=False)
@@ -61,6 +69,7 @@ def run_similarity_analysis(ligands_df, ligands_embd_df, text_only, output_dir):
         sample_size = len(mols)
         if sample_size < 2:
             logging.warning("Not enough valid SMILES to run similarity analysis.")
+            rdBase.EnableLog('rdApp.warning')
             return
 
     # Generate Morgan fingerprints for each molecule.
@@ -106,6 +115,8 @@ def run_similarity_analysis(ligands_df, ligands_embd_df, text_only, output_dir):
     click.echo("A high correlation suggests the embedding space preserves chemical similarity.")
     click.echo(f"Plot saved to: {plot_path}")
     click.echo("----------------------------------\n")
+    # Re-enable RDKit warnings
+    rdBase.EnableLog('rdApp.warning')
 
 
 def run_protein_similarity_analysis(proteins_df, proteins_embd_df, text_only, output_dir):
@@ -121,11 +132,12 @@ def run_protein_similarity_analysis(proteins_df, proteins_embd_df, text_only, ou
     It then plots these two similarity measures against each other to visualize
     their correlation and prints the Pearson correlation coefficient.
     """
-
-    """ -> enable again when protein embedding code done
     # --- 1. Dependency Check ---
     try:
         from Bio import pairwise2
+        import matplotlib
+        if not text_only:
+            matplotlib.use('Qt5Agg')
         import matplotlib.pyplot as plt
         import seaborn as sns
         from sklearn.metrics.pairwise import cosine_similarity
@@ -193,8 +205,6 @@ def run_protein_similarity_analysis(proteins_df, proteins_embd_df, text_only, ou
     correlation = np.corrcoef(seq_sims, cosine_sims)[0, 1]
     click.echo("\n--- Protein Similarity Analysis ---")
     click.echo(f"Correlation between Sequence and Cosine similarity: {correlation:.4f}")
-    click.echo(f"A high correlation suggests the embedding space preserves sequence similarity.")
+    click.echo("A high correlation suggests the embedding space preserves sequence similarity.")
     click.echo(f"Plot saved to: {plot_path}")
     click.echo("-----------------------------------\n")
-    """
-    
