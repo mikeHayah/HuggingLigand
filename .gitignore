@@ -55,7 +55,7 @@ docs/_build/
 results/
 *.csv
 *.tsv
-*.jsonl
+*.json
 
 # Datasets
 data/
