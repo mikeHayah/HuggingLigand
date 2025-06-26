@@ -44,7 +44,7 @@ dist/
 build/
 
 # Sphinx documentation
-docs/_build/
+public/
 *.docset
 
 # Environment
