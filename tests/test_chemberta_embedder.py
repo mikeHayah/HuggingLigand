@@ -1,12 +1,8 @@
-import os
-import sys
 
 import pytest
 import torch
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-
-from models.chemberta_embedding import ChembertaModel
+from src.models.chemberta_embedding import ChembertaModel
 
 
 @pytest.mark.slow

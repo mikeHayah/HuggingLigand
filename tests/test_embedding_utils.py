@@ -1,6 +1,6 @@
 import torch
 
-from modules.embedding_utils import mean_pool_embedding
+from src.modules.embedding_utils import mean_pool_embedding
 
 
 def test_mean_pool_embedding():
