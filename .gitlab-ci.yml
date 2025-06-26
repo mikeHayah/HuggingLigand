@@ -16,6 +16,7 @@ before_script:
 stages:
   - lint
   - test
+  - build
   - docs
 
 lint:
@@ -27,6 +28,14 @@ test:
   stage: test
   script:
     - poetry run pytest -m "not slow"
+
+build:
+  stage: build
+  script:
+    - poetry build
+  artifacts:
+    paths:
+      - dist/
 
 docs:
   stage: docs
