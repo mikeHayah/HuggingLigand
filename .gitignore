@@ -30,6 +30,7 @@ logs/
 .nox/
 coverage.xml
 htmlcov/
+tests/report.xml
 
 # Cache and artifacts
 *.cache/
