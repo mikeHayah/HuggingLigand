@@ -12,15 +12,33 @@ from modules.loaders import load_chemberta_model
 
 class ChembertaModel:
     """
-    A class to handle the ChemBERTa model for generating embeddings from SMILES strings.
+    Generate ligand embeddings using the ChemBERTa model.
+
+    Parameters
+    ----------
+    device : str, optional
+        Torch device to use ('cuda' or 'cpu'). Default is 'cpu'.
+
+    Attributes
+    ----------
+    device : torch.device
+        Computation device.
+    tokenizer : AutoTokenizer
+        Tokenizer for the ChemBERTa model.
+    model : AutoModel
+        Model for generating embeddings.
+    _cache : dict
+        Cache for storing computed embeddings.
     """
 
     def __init__(self, device: str = "cpu"):
         """
-        Initialize the ChembertaModel with a specified model name and device.
+        Initialize the ChembertaModel with a specified device.
 
-        Args:
-            device (str): The device to run the model on, e.g., "cpu" or "cuda".
+        Parameters
+        ----------
+        device : str
+            The device to run the model on, e.g., "cpu" or "cuda".
         """
         self.device = torch.device(device)
         self.tokenizer, self.model = load_chemberta_model(self.device)
@@ -40,13 +58,19 @@ class ChembertaModel:
         """
         Get embeddings for a list of SMILES strings.
 
-        Args:
-            smiles_list (list of str): List of SMILES strings.
-            batch_size (int): Number of sequences to process at once. Default is 32.
-            show_progress (bool): Whether to show progress bar for batches.
+        Parameters
+        ----------
+        smiles_list : list of str
+            List of SMILES strings.
+        batch_size : int
+            Number of sequences to process at once. Default is 32.
+        show_progress : bool
+            Whether to show progress bar for batches.
 
-        Returns:
-            list of torch.Tensor: Mean-pooled sequence embeddings, one per input.
+        Returns
+        -------
+        list of torch.Tensor
+            Mean-pooled sequence embeddings, one per input.
         """
         all_embeddings = []
         

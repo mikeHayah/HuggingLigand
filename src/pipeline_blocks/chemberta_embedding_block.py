@@ -13,37 +13,81 @@ from models.chemberta_embedding import ChembertaModel
 
 class ChembertaEmbeddingBlock:
     """
-    Preprocessing block for binding affinity datasets.
-    Downloads raw data, reformats it, and prepares it for embedding.
+    A pipeline block to generate embeddings for ligands using the ChemBERTa model.
+
+    This block takes a list of SMILES strings, processes them in batches to generate
+    embeddings, and returns a pandas DataFrame containing the original SMILES
+    and their corresponding embeddings. It includes features for handling large
+    datasets, such as batch processing, progress tracking, and saving
+    intermediate results to manage memory usage.
+
+    Attributes
+    ----------
+    ligands : list of str
+        The input list of SMILES strings to be processed.
+    ligands_embd : pd.DataFrame
+        A DataFrame containing the SMILES strings and their embeddings after
+        the `run` method has been executed.
     """
 
     def __init__(self):
+        """
+        Initializes the ChembertaEmbeddingBlock.
+        """
         self.ligands = None
         self.ligands_embd = None
 
 
-    def set_input(self, ligands):
+    def set_input(self, ligands: list[str]):
         """
-        Set the input ligands.
+        Sets the input data for the embedding block.
+
+        Parameters
+        ----------
+        ligands : list of str
+            A list of SMILES strings representing the ligands.
         """
         self.ligands = ligands
 
 
-    def get_output(self):
+    def get_output(self) -> pd.DataFrame:
         """
-        Get the processed ligands.
+        Retrieves the output of the embedding block.
+
+        Returns
+        -------
+        pd.DataFrame
+            A DataFrame with 'smiles' and 'embedding' columns. Returns None if
+            the `run` method has not been completed.
         """
         return self.ligands_embd
     
     
     def run(self, batch_size: int = 32, save_intermediate: bool = True, output_dir: str = 'data/embeddings'):
         """
-        Run the embedding step for the provided ligands.
+        Executes the embedding generation process for the input ligands.
+
+        This method processes the ligands in chunks and batches to efficiently
+        generate embeddings. It displays progress and optionally saves
+        intermediate results to disk to prevent data loss and manage memory.
+
+        Parameters
+        ----------
+        batch_size : int, optional
+            The number of SMILES strings to process in a single batch.
+            Default is 32.
+        save_intermediate : bool, optional
+            If True, intermediate embeddings are saved to disk periodically.
+            This is useful for large datasets. Default is True.
+        output_dir : str, optional
+            The directory where intermediate results will be saved.
+            Default is 'data/embeddings'.
         
-        Args:
-            batch_size (int): Number of sequences to process at once. Default is 32.
-            save_intermediate (bool): Whether to save intermediate results to disk.
-            output_dir (str): Directory to save intermediate results.
+        Raises
+        ------
+        ValueError
+            If the input ligands have not been set via `set_input` before
+            calling this method.
         """
         if self.ligands is None:
             raise ValueError("Ligands input not set. Use set_input() before calling run().")
@@ -147,4 +191,3 @@ class ChembertaEmbeddingBlock:
                 print(f"Cleaned up intermediate file: {os.path.basename(last_intermediate_file)}")
             except OSError:
                 pass
-        
