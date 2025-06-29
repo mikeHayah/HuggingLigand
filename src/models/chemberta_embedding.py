@@ -1,13 +1,9 @@
-import os
-import sys
 
 import torch
 from tqdm import tqdm
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-
-from modules.embedding_utils import mean_pool_embedding
-from modules.loaders import load_chemberta_model
+from src.modules.embedding_utils import mean_pool_embedding
+from src.modules.loaders import load_chemberta_model
 
 
 class ChembertaModel:

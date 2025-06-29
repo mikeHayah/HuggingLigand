@@ -1,15 +1,11 @@
 import torch
-import sys
 import os
 import pandas as pd
 import time
 from tqdm import tqdm
 import glob
 
-# Add the src directory to PYTHONPATH at runtime
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-
-from models.chemberta_embedding import ChembertaModel
+from src.models.chemberta_embedding import ChembertaModel
 
 class ChembertaEmbeddingBlock:
     """

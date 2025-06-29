@@ -16,7 +16,9 @@ before_script:
 stages:
   - lint
   - test
-  - docs
+  - build
+  - execute
+  - deploy
 
 lint:
   stage: lint
@@ -26,10 +28,45 @@ lint:
 test:
   stage: test
   script:
-    - poetry run pytest -m "not slow"
+    - poetry run pytest -m "not slow" --junitxml=tests/report.xml
+  artifacts:
+    reports:
+      junit: tests/report.xml
 
-docs:
-  stage: docs
+build:
+  stage: build
+  script:
+    - poetry build
+  artifacts:
+    paths:
+      - dist/
+    expose_as: 'HuggingLigand Package'
+  # only commented for test purposes:
+  #rules:
+  #  - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
+
+execute:
+  stage: execute
+  variables:
+    HF_HOME: "$CI_PROJECT_DIR/.cache/huggingface"
+  script:
+    - mkdir -p execution_results
+    - poetry run python src/scripts/cli.py --text-only --output-dir execution_results -vv --rows 100
+  artifacts:
+    paths:
+      - execution_results/
+    expose_as: 'Execution Results'
+    expire_in: '1 week'
+  cache:
+    key:
+      files:
+        - poetry.lock
+    paths:
+      - .cache/huggingface/
+    policy: pull-push
+
+pages:
+  stage: deploy
   script:
     - poetry run python docs/config/generate_api_rst.py
     - poetry run sphinx-build -b singlehtml docs/config/ public/
