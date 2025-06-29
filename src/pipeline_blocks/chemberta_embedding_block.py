@@ -5,7 +5,7 @@ import time
 from tqdm import tqdm
 import glob
 
-from src.models.chemberta_embedding import ChembertaModel
+from src.models.chemberta_embedding import ChembertaEmbedder
 
 class ChembertaEmbeddingBlock:
     """
@@ -103,7 +103,7 @@ class ChembertaEmbeddingBlock:
                 except OSError:
                     pass
         
-        embedder = ChembertaModel(device=device)
+        embedder = ChembertaEmbedder(device=device)
         
         # Process embeddings and convert to numpy arrays immediately to save memory
         all_embeddings = []

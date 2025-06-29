@@ -6,7 +6,7 @@ from src.modules.embedding_utils import mean_pool_embedding
 from src.modules.loaders import load_chemberta_model
 
 
-class ChembertaModel:
+class ChembertaEmbedder:
     """
     Generate ligand embeddings using the ChemBERTa model.
 
@@ -29,7 +29,7 @@ class ChembertaModel:
 
     def __init__(self, device: str = "cpu"):
         """
-        Initialize the ChembertaModel with a specified device.
+        Initialize the ChembertaEmbedder with a specified device.
 
         Parameters
         ----------

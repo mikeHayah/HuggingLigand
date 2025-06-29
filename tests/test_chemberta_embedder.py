@@ -2,7 +2,7 @@
 import pytest
 import torch
 
-from src.models.chemberta_embedding import ChembertaModel
+from src.models.chemberta_embedding import ChembertaEmbedder
 
 
 @pytest.mark.slow
@@ -11,7 +11,7 @@ def test_single_embedding():
         "CN1C=NC2=C1C(=O)N(C(=O)N2C)C"  # caffeine
     ]
 
-    embedder = ChembertaModel(device="cpu")
+    embedder = ChembertaEmbedder(device="cpu")
     embeddings = embedder.embed(sequences)
 
     assert isinstance(embeddings, list), "Output should be a list"
@@ -25,7 +25,7 @@ def test_single_embedding():
 def test_multiple_embeddings():
     sequences = ["C==C==O", "C1=CC=CC=C1", "CCO"]
 
-    embedder = ChembertaModel(device="cpu")
+    embedder = ChembertaEmbedder(device="cpu")
     embeddings = embedder.embed(sequences)
 
     assert isinstance(embeddings, list), "Output should be a list"
