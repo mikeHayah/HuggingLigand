@@ -10,10 +10,11 @@ authors = [
 license = "MIT"
 readme = "README.md"
 packages = [
-    { include = "models", from = "src" },
-    { include = "modules", from = "src" },
-    { include = "pipeline_blocks", from = "src" }
+    { include = "src" },
 ]
+
+[tool.poetry.scripts]
+huggingligand = "src.scripts.cli:main"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.12"
