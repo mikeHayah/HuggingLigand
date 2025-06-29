@@ -10,7 +10,7 @@ from src.pipeline_blocks.chemberta_embedding_block import ChembertaEmbeddingBloc
 from src.scripts.analysis import run_similarity_analysis, run_protein_similarity_analysis
 
 @click.command()
-@click.option('--source', default='https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip', help='URL or local path to the dataset.')
+@click.option('--source', default='https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip', help='URL to the dataset.')
 @click.option('-v', '--verbose', count=True, help='Enable verbose output. -v for WARNING, -vv for INFO, -vvv for DEBUG.')
 @click.option('--text-only', is_flag=True, help='Suppress graphical output.')
 @click.option('--rows', type=int, default=None, help='Number of rows to process from the dataset.')
