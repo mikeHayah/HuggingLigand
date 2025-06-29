@@ -6,12 +6,12 @@ variables:
   POETRY_VIRTUALENVS_IN_PROJECT: "true"
   PIP_NO_CACHE_DIR: "off"
   PIP_DISABLE_PIP_VERSION_CHECK: "on"
-  PYTHONPATH: "$CI_PROJECT_DIR/src"
+  PYTHONPATH: "$CI_PROJECT_DIR"
 
 before_script:
   - python -m pip install --upgrade pip
   - pip install poetry==${POETRY_VERSION}
-  - poetry install --no-root
+  - poetry install
 
 stages:
   - lint
@@ -50,11 +50,11 @@ execute:
   variables:
     HF_HOME: "$CI_PROJECT_DIR/.cache/huggingface"
   script:
-    - mkdir -p execution_results
-    - poetry run python src/scripts/cli.py --text-only --output-dir execution_results -vv --rows 100
+    - mkdir -p results
+    - poetry run python src/scripts/cli.py --text-only --output-dir results -vv --rows 100
   artifacts:
     paths:
-      - execution_results/
+      - results/
     expose_as: 'Execution Results'
     expire_in: '1 week'
   cache:
