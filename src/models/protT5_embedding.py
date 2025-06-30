@@ -55,14 +55,12 @@ class ProtT5Embedder:
         if isinstance(sequences, pd.DataFrame):
             sequences = sequences.iloc[:, 0].tolist()
             if not full_data:
-                sequences = sequences[:1000]
+                sequences = sequences[:100]
 
         if show_progress and len(sequences) > batch_size:
             batch_range = tqdm(range(0, len(sequences), batch_size), desc="Processing batches", unit="batch", leave=False)
         else:
             batch_range = range(0, len(sequences), batch_size)
-
-        # sequences = sequences[:100000]  # LIMIT FOR DEBUGGING
 
         all_embeddings = []
 

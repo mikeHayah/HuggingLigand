@@ -12,7 +12,9 @@ readme = "README.md"
 packages = [
     { include = "models", from = "src" },
     { include = "modules", from = "src" },
-    { include = "pipeline_blocks", from = "src" }
+    { include = "pipeline_blocks", from = "src" },
+    { include = "scripts", from = "src" },
+    { include = "src" }
 ]
 
 [tool.poetry.dependencies]
