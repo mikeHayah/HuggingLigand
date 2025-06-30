@@ -15,9 +15,7 @@ from src.scripts.analysis import run_similarity_analysis, run_protein_similarity
 @click.option('--text-only', is_flag=True, help='Suppress graphical output.')
 @click.option('--rows', type=int, default=None, help='Number of rows to process from the dataset.')
 @click.option('--output-dir', default=None, help='Directory to save the embeddings and analysis results.')
-# TODO: reenable and test protein embedding when its code is finished 
-@click.option('--embed', type=click.Choice(['ligand']), default='ligand', help='Specify what to embed.')
-#@click.option('--embed', type=click.Choice(['ligand', 'protein', 'both']), default='both', help='Specify what to embed.')
+@click.option('--embed', type=click.Choice(['ligand', 'protein', 'both']), default='both', help='Specify what to embed.')
 def main(source, verbose, text_only, rows, output_dir, embed):
     """
     This script generates embeddings from a given dataset URL or local path.
@@ -72,10 +70,9 @@ def main(source, verbose, text_only, rows, output_dir, embed):
         data_directory = os.path.join(output_dir, 'embeddings')
         analysis_output_dir = output_dir
     else:
-        app_name = "HuggingLigand"
-        app_data_dir = click.get_app_dir(app_name)
-        data_directory = os.path.join(app_data_dir, 'embeddings')
-        analysis_output_dir = app_data_dir
+        result_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'results')
+        data_directory = os.path.join(result_dir, 'embeddings')
+        analysis_output_dir = result_dir
 
     if not os.path.exists(data_directory):
         os.makedirs(data_directory)
