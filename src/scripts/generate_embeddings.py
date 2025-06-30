@@ -54,4 +54,5 @@ if __name__ == "__main__":
         print(f"Saved embeddings for {len(myligands_embd)} ligands to {data_directory}")
     
     if myproteins_embd is not None:
+        print("Saving protein embeddings...")
         myproteins_embd.to_csv(os.path.join(data_directory,'proteins_embeddings.csv'), index=False)
