@@ -50,7 +50,7 @@ execute:
     HF_HOME: "$CI_PROJECT_DIR/.cache/huggingface"
   script:
     - mkdir -p results
-    - poetry run python src/scripts/cli.py --text-only --output-dir results -vv --rows 100
+    - poetry run python src/scripts/cli.py --text-only --output-dir results -vv --rows 10
   artifacts:
     paths:
       - results/
