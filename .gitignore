@@ -30,7 +30,7 @@ logs/
 .nox/
 coverage.xml
 htmlcov/
-
+tests/report.xml
 
 # Cache and artifacts
 *.cache/
@@ -45,7 +45,7 @@ dist/
 build/
 
 # Sphinx documentation
-docs/_build/
+public/
 *.docset
 
 # Environment
@@ -56,7 +56,10 @@ docs/_build/
 results/
 *.csv
 *.tsv
-*.jsonl
+*.json
+
+# Datasets
+data/
 
 # Hugging Face / model data
 *.model
