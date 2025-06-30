@@ -6,12 +6,11 @@ ProtT5: a protein language model pretrained on millions of protein sequences.
 ChemBERTa: a molecular language model trained on SMILES representations of chemical compounds.
 These embeddings are concatenated and fed into a customizable  model that learns to predict continuous binding affinity values (e.g., Kd, Ki, or IC50 values).
 </pre> 
-=======
 
 
 ## Dataset  
 
-**BindingDB** — a curated dataset of experimentally measured protein-ligand binding affinities.
+**BindingDB** — a curated dataset of experimentally measured protein-ligand binding affinities (Liu et al., 2025) found at [BindingDB](https://www.bindingdb.org).
 
 ---
 
@@ -44,6 +43,41 @@ Data-repo
 │        └── test/            # testing dataset
 └── Model_registery           # Save Model checkpoint
 </pre> 
+---
+
+## Running the application
+To simply run the application, get the current *.whl file from the dist directory here and install it into a venv with pip by inserting the correct version number:
+```bash
+pip install huggingligand-1.0.0-py3-none-any.whl
+```
+
+You can then create a folder to store data and results and run the the app with (it is recommended to use --rows argument to reduce runtime):
+```bash
+mkdir huggingligand
+cd huggingligand
+huggingligand --source https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip --rows 100
+```
+
+And get all available options with:
+```bash
+huggingligand --help
+```
+
+---
+
+## Installation and Usage
+To install HuggingLigand including source codes, clone the repository and install the required dependencies with `poetry`:
+```bash
+git clone https://codebase.helmholtz.cloud/tud-rse-pojects-2025/group-11.git
+cd group-11
+poetry install
+```
+
+Then execute the CLI script:
+```bash
+poetry run python src/scripts/cli.py --source https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip --rows 100
+```
+
 ---
 
 ## HuggingLigand Directory Structure

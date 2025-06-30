@@ -70,7 +70,7 @@ def main(source, verbose, text_only, rows, output_dir, embed):
         data_directory = os.path.join(output_dir, 'embeddings')
         analysis_output_dir = output_dir
     else:
-        result_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'results')
+        result_dir = os.path.join(os.getcwd(), 'results')
         data_directory = os.path.join(result_dir, 'embeddings')
         analysis_output_dir = result_dir
 
