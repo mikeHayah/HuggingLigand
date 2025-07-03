@@ -9,7 +9,7 @@ class Reformatter:
     """
     def __init__(self, input_path, reformated_path, required_columns):
         """
-        Parameters:
+        Parameters
         ----------
         input_path : str
             Path to the raw data file (could be zipped or plain .tsv).
@@ -38,11 +38,11 @@ class Reformatter:
     def _read_file(self, file_path):
         """
         Read a file and return its content as a list of lines.
-        Parameters:
+        Parameters
         ----------
         file_path : str
             Path to the file to read.
-        Returns:
+        Returns
         -------
         df : pandas.DataFrame
             DataFrame containing the file's content.
@@ -71,13 +71,14 @@ class Reformatter:
         return df
 
     def read_valid_header(self,cells):
-        """
-        Check if the header contains the required columns.
-        Parameters:
+        """Check if the header contains the required columns.
+
+        Parameters
         ----------
         cells : list
             List of column names from the header.
-        Returns:
+
+        Returns
         -------
         bool
             True if the header contains the required columns, False otherwise.
@@ -89,9 +90,9 @@ class Reformatter:
             return False
 
     def reformat(self):
-        """
-        Main method to reformat raw data into a clean CSV with selected columns.
-        Returns:
+        """Main method to reformat raw data into a clean CSV with selected columns.
+
+        Returns
         -------
         str
             Path to the cleaned CSV file.

@@ -1,7 +1,8 @@
-from modules.downloader import DataDownloader
-from modules.reformatter import Reformatter
-from modules.bindingdata import BindingData
 import pandas as pd
+
+from src.modules.downloader import DataDownloader
+from src.modules.reformatter import Reformatter
+from src.modules.bindingdata import BindingData
 
 class PreEmbeddingBlock:
     """

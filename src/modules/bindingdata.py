@@ -101,9 +101,9 @@ class BindingData(pd.DataFrame):
         return BindingData(combined_df)
 
     def apply(self, operation, *args, **kwargs):
-        """
-        Apply a specified operation to the DataFrame.
-        Parameters:
+        """Apply a specified operation to the DataFrame.
+
+        Parameters
         ----------
         operation : str
             The name of the operation to apply.
@@ -120,9 +120,9 @@ class BindingData(pd.DataFrame):
             raise TypeError("Operation must be a string referring to a cleaning function")
 
     def pipeline(self, ops):
-        """
-        Apply a series of operations to the DataFrame.
-        Parameters:
+        """Apply a series of operations to the DataFrame.
+
+        Parameters
         ----------
         ops : list of str
             A list of operations to apply.

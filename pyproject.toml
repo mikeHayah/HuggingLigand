@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "huggingligand"
+version = "1.0.0"
+description = "Protein embedding and analysis with ProtT5"
+authors = [
+    "Ramy Boulos",
+    "Michael Hanna",
+    "Justus Möller"
+]
+license = "MIT"
+readme = "README.md"
+packages = [
+    { include = "src" },
+]
+
+[tool.poetry.scripts]
+huggingligand = "src.scripts.cli:main"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.12"
+torch = ">=2.7.1,<3.0.0"
+transformers = ">=4.52.4,<5.0.0"
+sentencepiece = ">=0.2.0,<0.3.0"
+click = ">=8.2.1,<9.0.0"
+pandas = ">=2.3.0,<3.0.0"
+tqdm = ">=4.66.0,<5.0.0"
+sphinx = "^8.2.3"
+sphinx-rtd-theme = "^3.0.2"
+numpydoc = "^1.9.0"
+seaborn = "^0.13.2"
+matplotlib = "^3.10.3"
+scikit-learn = "^1.7.0"
+bio = "^1.8.0"
+rdkit = "^2025.3.3"
+pyqt5 = "^5.15.11"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+ruff = "^0.12.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
