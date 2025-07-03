@@ -68,7 +68,7 @@ class ChembertaEmbedder:
         
         # Create progress bar for batches if requested
         batch_range = range(0, len(smiles_list), batch_size)
-        if show_progress and len(smiles_list) > batch_size:
+        if len(smiles_list) > batch_size:
             batch_range = tqdm(batch_range, desc="Processing batches", unit="batch", leave=False)
         
         # Process in batches to avoid memory issues

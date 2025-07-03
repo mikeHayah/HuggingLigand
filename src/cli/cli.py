@@ -8,7 +8,7 @@ import configparser
 from src.pipeline_blocks.preembedding_block import PreEmbeddingBlock
 from src.pipeline_blocks.prott5_embedding_block import Prott5EmbeddingBlock
 from src.pipeline_blocks.chemberta_embedding_block import ChembertaEmbeddingBlock
-from src.scripts.analysis import run_similarity_analysis, run_protein_similarity_analysis
+from src.cli.analysis import run_similarity_analysis, run_protein_similarity_analysis
 
 # Load configuration
 config = configparser.ConfigParser()
