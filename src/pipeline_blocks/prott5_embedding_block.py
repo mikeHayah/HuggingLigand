@@ -5,11 +5,33 @@ from src.models.protT5_embedding import ProtT5Embedder
 
 class Prott5EmbeddingBlock:
     """
-    Preprocessing block for binding affinity datasets.
-    Downloads raw data, reformats it, and prepares it for embedding.
+    A pipeline block to generate embeddings for proteins using the ProtT5 model.
+    
+    This block takes a list of protein sequences, processes them to generate
+    embeddings, and returns a pandas DataFrame containing the original sequences
+    and their corresponding embeddings.
+
+    Attributes
+    ----------
+    proteins : list of str
+        The input list of protein sequences to be processed.
+    proteins_embd : pd.DataFrame
+        A DataFrame containing the protein sequences and their embeddings after
+        the `run` method has been executed.
+    model_name : str
+        The name of the pre-trained ProtT5 model to use.
     """
 
     def __init__(self, model_name: str = "Rostlab/prot_t5_xl_half_uniref50-enc"):
+        """
+        Initialize the Prott5EmbeddingBlock.
+        
+        Parameters
+        ----------
+        model_name : str
+            The name of the pre-trained ProtT5 model to use.
+            Default is configured in config.ini under [models].protein_model.
+        """
         self.proteins = None
         self.proteins_embd = None
         self.model_name = model_name

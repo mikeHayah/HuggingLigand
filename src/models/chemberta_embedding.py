@@ -14,6 +14,9 @@ class ChembertaEmbedder:
     ----------
     device : str, optional
         Torch device to use ('cuda' or 'cpu'). Default is 'cpu'.
+    model_name : str, optional
+        The name of the pre-trained ChemBERTa model to load. 
+        Default is configured in config.ini under [models].ligand_model.
 
     Attributes
     ----------
@@ -35,6 +38,9 @@ class ChembertaEmbedder:
         ----------
         device : str
             The device to run the model on, e.g., "cpu" or "cuda".
+        model_name : str
+            The name of the pre-trained ChemBERTa model to load.
+            Default is configured in config.ini under [models].ligand_model.
         """
         self.device = torch.device(device)
         self.model_name = model_name
@@ -128,8 +134,6 @@ class ChembertaEmbedder:
             
             # Clear cache periodically to prevent unlimited memory growth
             if len(self._cache) > 10 ** 6:  # Adjust this threshold as needed
-                if not show_progress:  # Only print if not using progress bar
-                    print("Clearing embedding cache to free memory...")
                 self._cache.clear()
 
         return all_embeddings

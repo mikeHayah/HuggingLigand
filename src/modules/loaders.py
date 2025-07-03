@@ -8,10 +8,11 @@ def load_chemberta_model(device: torch.device, model_name: str = "seyonec/ChemBE
 
     Parameters
     ----------
-    model_name : str
-        The name of the pre-trained ChemBERTa model to load.
     device : torch.device
         The computation device to move the model to.
+    model_name : str
+        The name of the pre-trained ChemBERTa model to load.
+        Default is configured in config.ini under [models].ligand_model.
 
     Returns
     -------
@@ -33,6 +34,9 @@ def load_prott5_model(device: torch.device, model_name: str = "Rostlab/prot_t5_x
     ----------
     device : torch.device
         The computation device to move the model to.
+    model_name : str
+        The name of the pre-trained ProtT5 model to load.
+        Default is configured in config.ini under [models].protein_model.
 
     Returns
     -------

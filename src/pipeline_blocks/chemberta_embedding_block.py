@@ -29,6 +29,12 @@ class ChembertaEmbeddingBlock:
     def __init__(self, model_name: str = "seyonec/ChemBERTa-zinc-base-v1"):
         """
         Initializes the ChembertaEmbeddingBlock.
+        
+        Parameters
+        ----------
+        model_name : str
+            The name of the pre-trained ChemBERTa model to use.
+            Default is configured in config.ini under [models].ligand_model.
         """
         self.ligands = None
         self.ligands_embd = None
