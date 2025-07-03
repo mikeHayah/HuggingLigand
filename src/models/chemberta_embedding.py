@@ -46,7 +46,7 @@ class ChembertaEmbedder:
         
         self._cache = {}
 
-    def embed(self, smiles_list: list[str], batch_size: int = 32, show_progress: bool = False) -> list[torch.Tensor]:
+    def embed(self, smiles_list: list[str], batch_size: int = 32) -> list[torch.Tensor]:
         """
         Get embeddings for a list of SMILES strings.
 
