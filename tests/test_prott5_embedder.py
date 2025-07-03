@@ -1,18 +1,19 @@
-import os
-import sys
 
 import pytest
 import torch
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from src.models.protT5_embedding import ProtT5Embedder
 
 
 @pytest.mark.slow
 def test_embedder():
+    # Example protein sequence from UniProt (HIV protease)
+    sequences = [
+        "PQITLWQRPLVTIKIGGQLKEALLDTGADDTVLEEMNLPGRWKPKMIGGIGGFIKVRQYDQILIEICGHKAIGTVLVGPTPVNIIGRNLLTQIGCTLNF"
+    ]
+
     embedder = ProtT5Embedder(device="cpu")  # Use "cuda" if available
-    embeddings = embedder.embed()
+    embeddings = embedder.embed(sequences)
 
     assert isinstance(embeddings, list), "Output should be a list"
     assert isinstance(embeddings[0], torch.Tensor), "Each item should be a torch.Tensor"

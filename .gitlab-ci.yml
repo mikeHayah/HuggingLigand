@@ -28,7 +28,7 @@ lint:
 test:
   stage: test
   script:
-    - poetry run pytest -m "not slow" --junitxml=tests/report.xml
+    - poetry run pytest --junitxml=tests/report.xml
   artifacts:
     reports:
       junit: tests/report.xml

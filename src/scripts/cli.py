@@ -52,6 +52,7 @@ def main(source, verbose, text_only, rows, output_dir, embed):
 
     myligands_embd = None
     if embed in ['ligand', 'both']:
+        myligands = myligands.head(5)
         chemberta_embedding_block = ChembertaEmbeddingBlock()
         ligand_list = myligands['Ligand SMILES'].tolist()
         logging.info(f"Total number of ligands to process: {len(ligand_list)}")
@@ -61,8 +62,10 @@ def main(source, verbose, text_only, rows, output_dir, embed):
 
     myproteins_embd = None
     if embed in ['protein', 'both']:
+        myproteins = myproteins.head(5)
         prott5_embedding_block = Prott5EmbeddingBlock()
-        prott5_embedding_block.set_input(myproteins)
+        protein_list = myproteins['BindingDB Target Chain Sequence'].tolist()
+        prott5_embedding_block.set_input(protein_list)
         prott5_embedding_block.run()
         myproteins_embd = prott5_embedding_block.get_output()
 
@@ -82,12 +85,10 @@ def main(source, verbose, text_only, rows, output_dir, embed):
 
     if myligands_embd is not None:
         csv_path = os.path.join(data_directory, output_file + '.csv')
-        
-        # Save a version with flattened embeddings for CSV (optional)
-        csv_df = myligands_embd.copy()
-        csv_df['embedding_str'] = csv_df['embedding'].apply(lambda x: ','.join(map(str, x)))
-        csv_df.drop('embedding', axis=1).to_csv(csv_path, index=False)
-        
+        ligand_csv_df = myligands_embd.copy()
+        ligand_csv_df['embedding_str'] = ligand_csv_df['embedding'].apply(lambda x: ','.join(map(str, x)))
+        ligand_csv_df.drop('embedding', axis=1).to_csv(csv_path, index=False)
+
         logging.info(f"Saved embeddings for {len(myligands_embd)} ligands to {data_directory}")
         
         # Output statistics
@@ -100,8 +101,10 @@ def main(source, verbose, text_only, rows, output_dir, embed):
 
     if myproteins_embd is not None:
         protein_csv_path = os.path.join(data_directory,'proteins_embeddings.csv')
-        myproteins_embd.to_csv(protein_csv_path, index=False)
-        
+        protein_csv_df = myproteins_embd.copy()
+        protein_csv_df['embedding_str'] = protein_csv_df['embedding'].apply(lambda x: ','.join(map(str, x)))
+        protein_csv_df.drop('embedding', axis=1).to_csv(protein_csv_path, index=False)
+
         logging.info(f"Saved {len(myproteins_embd)} protein embeddings to {protein_csv_path}")
 
         # Output statistics

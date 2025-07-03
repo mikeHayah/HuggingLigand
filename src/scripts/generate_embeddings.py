@@ -27,7 +27,8 @@ if __name__ == "__main__":
     myligands, myproteins = preembedding_block.get_output()
 
     prott5_embedding_block = Prott5EmbeddingBlock()
-    prott5_embedding_block.set_input(myproteins)
+    protein_list = myproteins['BindingDB Target Chain Sequence'].tolist()
+    prott5_embedding_block.set_input(protein_list)
     prott5_embedding_block.run()
     myproteins_embd = prott5_embedding_block.get_output()
 
@@ -45,14 +46,13 @@ if __name__ == "__main__":
         os.makedirs(data_directory)
 
     if myligands_embd is not None:
-        # Save as pickle to preserve numpy arrays, and CSV for inspection
-        myligands_embd.to_pickle(os.path.join(data_directory, output_file + '.pkl'))
-        # Save a version with flattened embeddings for CSV (optional)
         csv_df = myligands_embd.copy()
         csv_df['embedding_str'] = csv_df['embedding'].apply(lambda x: ','.join(map(str, x)))
         csv_df.drop('embedding', axis=1).to_csv(os.path.join(data_directory, output_file + '.csv'), index=False)
         print(f"Saved embeddings for {len(myligands_embd)} ligands to {data_directory}")
     
     if myproteins_embd is not None:
-        print("Saving protein embeddings...")
-        myproteins_embd.to_csv(os.path.join(data_directory,'proteins_embeddings.csv'), index=False)
+        csv_df = myproteins_embd.copy()
+        csv_df['embedding_str'] = csv_df['embedding'].apply(lambda x: ','.join(map(str, x)))
+        csv_df.drop('embedding', axis=1).to_csv(os.path.join(data_directory,'proteins_embeddings.csv'), index=False)
+        print(f"Saved embeddings for {len(myproteins_embd)} proteins to {data_directory}")

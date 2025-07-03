@@ -1,3 +1,4 @@
+import pandas as pd
 import torch
 
 from src.models.protT5_embedding import ProtT5Embedder
@@ -36,4 +37,5 @@ class Prott5EmbeddingBlock:
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
         embedder = ProtT5Embedder(device=device)
-        self.proteins_embd = embedder.embed(self.proteins, show_progress=True)
+        embeddings = embedder.embed(self.proteins, show_progress=True)
+        self.proteins_embd = pd.DataFrame({'smiles': self.proteins, 'embedding': embeddings})
