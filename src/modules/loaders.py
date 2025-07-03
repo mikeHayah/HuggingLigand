@@ -2,7 +2,7 @@ import torch
 from transformers import AutoModelForMaskedLM, AutoTokenizer, T5EncoderModel, T5Tokenizer
 
 
-def load_chemberta_model(device: torch.device):
+def load_chemberta_model(device: torch.device, model_name: str = "seyonec/ChemBERTa-zinc-base-v1"):
     """
     Load the ChemBERTa tokenizer and model.
 
@@ -18,8 +18,6 @@ def load_chemberta_model(device: torch.device):
     tuple
         (tokenizer, model) ready for inference.
     """
-    model_name = "seyonec/ChemBERTa-zinc-base-v1"
-
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForMaskedLM.from_pretrained(model_name)
     model.to(device)
@@ -27,7 +25,7 @@ def load_chemberta_model(device: torch.device):
     return tokenizer, model
 
 
-def load_prott5_model(device: torch.device):
+def load_prott5_model(device: torch.device, model_name: str = "Rostlab/prot_t5_xl_half_uniref50-enc"):
     """
     Load the ProtT5 tokenizer and encoder model.
 
@@ -41,8 +39,6 @@ def load_prott5_model(device: torch.device):
     tuple
         (tokenizer, model) ready for inference.
     """
-    
-    model_name = "Rostlab/prot_t5_xl_half_uniref50-enc" # full model is "Rostlab/prot_t5_xl_uniref50"
 
     tokenizer = T5Tokenizer.from_pretrained(model_name, do_lower_case=False)
     model = T5EncoderModel.from_pretrained(model_name)

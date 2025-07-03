@@ -19,6 +19,8 @@ if config.sections() == []:
     raise FileNotFoundError(f"Configuration file not found at {config_path}. Please ensure it exists.")
 
 default_source = config.get('dataset', 'default_source', fallback='https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip')
+ligand_model_name = config.get('models', 'ligand_model', fallback='seyonec/ChemBERTa-zinc-base-v1')
+protein_model_name = config.get('models', 'protein_model', fallback='Rostlab/prot_t5_xl_half_uniref50-enc')
 
 @click.command()
 @click.option('--source', default=default_source, help='URL to the dataset.')
@@ -62,7 +64,7 @@ def main(source, verbose, text_only, rows, output_dir, embed):
 
     myligands_embd = None
     if embed in ['ligand', 'both']:
-        chemberta_embedding_block = ChembertaEmbeddingBlock()
+        chemberta_embedding_block = ChembertaEmbeddingBlock(model_name=ligand_model_name)
         ligand_list = myligands['Ligand SMILES'].tolist()
         logging.info(f"Total number of ligands to process: {len(ligand_list)}")
         chemberta_embedding_block.set_input(ligand_list)
@@ -71,7 +73,7 @@ def main(source, verbose, text_only, rows, output_dir, embed):
 
     myproteins_embd = None
     if embed in ['protein', 'both']:
-        prott5_embedding_block = Prott5EmbeddingBlock()
+        prott5_embedding_block = Prott5EmbeddingBlock(model_name=protein_model_name)
         protein_list = myproteins['BindingDB Target Chain Sequence'].tolist()
         logging.info(f"Total number of proteins to process: {len(protein_list)}")
         prott5_embedding_block.set_input(protein_list)

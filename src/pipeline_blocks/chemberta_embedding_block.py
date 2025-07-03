@@ -26,12 +26,13 @@ class ChembertaEmbeddingBlock:
         the `run` method has been executed.
     """
 
-    def __init__(self):
+    def __init__(self, model_name: str = "seyonec/ChemBERTa-zinc-base-v1"):
         """
         Initializes the ChembertaEmbeddingBlock.
         """
         self.ligands = None
         self.ligands_embd = None
+        self.model_name = model_name
 
 
     def set_input(self, ligands: list[str]):
@@ -84,7 +85,7 @@ class ChembertaEmbeddingBlock:
         device = "cuda" if torch.cuda.is_available() else "cpu"
         print(f"Processing {len(self.ligands)} ligands on {device}")
         
-        embedder = ChembertaEmbedder(device=device)
+        embedder = ChembertaEmbedder(device=device, model_name=self.model_name)
         
         start_time = time.time()
 

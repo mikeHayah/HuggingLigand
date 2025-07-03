@@ -13,7 +13,7 @@ class ProtT5Embedder:
     A class to generate protein embeddings using the ProtT5 model.
     """
 
-    def __init__(self, device: str = "cpu"):
+    def __init__(self, device: str = "cpu", model_name: str = "Rostlab/prot_t5_xl_half_uniref50-enc"):
         """
         Initialize the ProtT5Embedder.
 
@@ -21,7 +21,8 @@ class ProtT5Embedder:
             device (str): The device to run the model on ('cpu' or 'cuda').
         """
         self.device = torch.device(device)
-        self.tokenizer, self.model = load_prott5_model(self.device)
+        self.model_name = model_name
+        self.tokenizer, self.model = load_prott5_model(self.device, self.model_name)
         self.model.eval()
 
         if self.device.type == "cpu":

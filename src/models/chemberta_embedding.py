@@ -27,7 +27,7 @@ class ChembertaEmbedder:
         Cache for storing computed embeddings.
     """
 
-    def __init__(self, device: str = "cpu"):
+    def __init__(self, device: str = "cpu", model_name: str = "seyonec/ChemBERTa-zinc-base-v1"):
         """
         Initialize the ChembertaEmbedder with a specified device.
 
@@ -37,7 +37,8 @@ class ChembertaEmbedder:
             The device to run the model on, e.g., "cpu" or "cuda".
         """
         self.device = torch.device(device)
-        self.tokenizer, self.model = load_chemberta_model(self.device)
+        self.model_name = model_name
+        self.tokenizer, self.model = load_chemberta_model(self.device, self.model_name)
         
         if device == "cpu":
             torch.set_num_threads(torch.get_num_threads())  # Use all available CPU cores
