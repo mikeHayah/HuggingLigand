@@ -1,7 +1,6 @@
 import logging
 import torch
 from tqdm import tqdm
-import pandas as pd
 
 from src.modules.embedding_utils import mean_pool_embedding
 from src.modules.loaders import load_prott5_model
@@ -31,7 +30,7 @@ class ProtT5Embedder:
 
         self._cache = {}
 
-    def embed(self, sequences: list[str], batch_size: int = 4, show_progress: bool = False, full_data: bool = False) -> pd.DataFrame:
+    def embed(self, sequences: list[str], batch_size: int = 4, show_progress: bool = False, full_data: bool = False) -> list[torch.Tensor]:
         """
         Generates mean-pooled ProtT5 embeddings for the given protein sequences in batches.
 
@@ -48,13 +47,12 @@ class ProtT5Embedder:
 
         Returns
         -------
-        pd.DataFrame
-            A DataFrame where each row is the embedding vector for a protein sequence.
+        list[torch.Tensor]
+            A list of tensors where each tensor is the embedding vector for a protein sequence.
         """
-        if isinstance(sequences, pd.DataFrame):
-            sequences = sequences.iloc[:, 0].tolist()
-            if not full_data:
-                sequences = sequences[:100]
+        
+        if not full_data:
+            sequences = sequences[:100]
 
         if show_progress and len(sequences) > batch_size:
             batch_range = tqdm(range(0, len(sequences), batch_size), desc="Processing batches", unit="batch", leave=False)
@@ -79,10 +77,9 @@ class ProtT5Embedder:
                     all_embeddings.append(self._cache[seq])
                 else:
                     mean_emb = mean_pool_embedding(emb, mask).cpu()
-                    mean_emb_list = mean_emb.tolist()
-                    self._cache[seq] = mean_emb_list
-                    all_embeddings.append(mean_emb_list)
+                    self._cache[seq] = mean_emb
+                    all_embeddings.append(mean_emb)
 
             torch.cuda.empty_cache()
 
-        return pd.DataFrame(all_embeddings)
+        return all_embeddings

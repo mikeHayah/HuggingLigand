@@ -183,7 +183,7 @@ def run_protein_similarity_analysis(proteins_df, proteins_embd_df, text_only, ou
     seq_sims = seq_sims_matrix[np.triu_indices(sample_size, k=1)]
 
     # --- 4. Cosine Similarity (Embeddings) ---
-    embeddings = sampled_embeddings.values
+    embeddings = np.vstack(sampled_embeddings['embedding'].values)
     cosine_sims_matrix = cosine_similarity(embeddings)
     cosine_sims = cosine_sims_matrix[np.triu_indices(sample_size, k=1)]
 
