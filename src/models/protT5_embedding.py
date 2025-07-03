@@ -94,6 +94,9 @@ class ProtT5Embedder:
                     self._cache[seq] = mean_emb
                     all_embeddings.append(mean_emb)
 
-            torch.cuda.empty_cache()
+            # Clear intermediate variables to free memory
+            del inputs, input_ids, attention_mask, outputs, embeddings
+            if self.device.type == "cuda":
+                torch.cuda.empty_cache()
 
         return all_embeddings

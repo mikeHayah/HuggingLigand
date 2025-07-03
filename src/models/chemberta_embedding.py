@@ -53,7 +53,7 @@ class ChembertaEmbedder:
         
         self._cache = {}
 
-    def embed(self, smiles_list: list[str], batch_size: int = 32) -> list[torch.Tensor]:
+    def embed(self, smiles_list: list[str], batch_size: int = 32, show_progress: bool = True) -> list[torch.Tensor]:
         """
         Get embeddings for a list of SMILES strings.
 
@@ -64,7 +64,7 @@ class ChembertaEmbedder:
         batch_size : int
             Number of sequences to process at once. Default is 32.
         show_progress : bool
-            Whether to show progress bar for batches.
+            Whether to show progress bar for batches. Default is True.
 
         Returns
         -------
@@ -75,7 +75,7 @@ class ChembertaEmbedder:
         
         # Create progress bar for batches if requested
         batch_range = range(0, len(smiles_list), batch_size)
-        if len(smiles_list) > batch_size:
+        if show_progress and len(smiles_list) > batch_size:
             batch_range = tqdm(batch_range, desc="Processing batches", unit="batch", leave=False)
         
         # Process in batches to avoid memory issues
@@ -109,8 +109,11 @@ class ChembertaEmbedder:
                 attention_mask = inputs["attention_mask"].to(self.device)
 
                 with torch.no_grad():
-                    # Use half precision for speed (if supported)
-                    with torch.autocast(device_type='cpu', dtype=torch.float16, enabled=True):
+                    # Use half precision for speed (if supported and on CUDA)
+                    autocast_device = 'cuda' if self.device.type == 'cuda' else 'cpu'
+                    autocast_dtype = torch.float16 if self.device.type == 'cuda' else torch.bfloat16
+                    
+                    with torch.autocast(device_type=autocast_device, dtype=autocast_dtype, enabled=True):
                         outputs = self.model(
                             input_ids=input_ids, 
                             attention_mask=attention_mask, 
@@ -122,8 +125,10 @@ class ChembertaEmbedder:
                 # Process uncached embeddings and place at correct positions
                 for idx, (seq, emb, mask) in enumerate(zip(uncached_smiles, last_hidden_state, attention_mask, strict=False)):
                     mean_emb = mean_pool_embedding(emb, mask)
-                    self._cache[seq] = mean_emb
-                    batch_embeddings[uncached_indices[idx]] = mean_emb  # Place at correct position
+                    # Move embedding to CPU to save GPU memory
+                    mean_emb_cpu = mean_emb.cpu()
+                    self._cache[seq] = mean_emb_cpu
+                    batch_embeddings[uncached_indices[idx]] = mean_emb_cpu  # Place at correct position
                 
                 # Clear intermediate variables to free memory
                 del inputs, input_ids, attention_mask, outputs, last_hidden_state
@@ -134,6 +139,8 @@ class ChembertaEmbedder:
             
             # Clear cache periodically to prevent unlimited memory growth
             if len(self._cache) > 10 ** 6:  # Adjust this threshold as needed
+                if show_progress:
+                    print("Clearing embedding cache to free memory...")
                 self._cache.clear()
 
         return all_embeddings
