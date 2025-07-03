@@ -39,13 +39,9 @@ class ChembertaEmbedder:
         self.device = torch.device(device)
         self.tokenizer, self.model = load_chemberta_model(self.device)
         
-        # CPU optimizations
         if device == "cpu":
-            # Use optimized BLAS operations
             torch.set_num_threads(torch.get_num_threads())  # Use all available CPU cores
-            # Set model to eval mode and optimize for inference
             self.model.eval()
-            # Enable JIT compilation for CPU
             torch.jit.optimized_execution(True)
         
         self._cache = {}
