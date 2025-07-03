@@ -75,7 +75,7 @@ poetry install
 
 Then execute the CLI script:
 ```bash
-poetry run python src/scripts/cli.py --source https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip --rows 100
+poetry run python src/cli/cli.py --source https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip --rows 100
 ```
 
 ---
