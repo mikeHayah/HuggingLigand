@@ -47,7 +47,7 @@ def test_reformat_creates_clean_csv(sample_tsv_file, tmp_path):
     required_columns = ["ColA"]
     ref = Reformatter(str(sample_tsv_file), str(output_path), required_columns)
 
-    result_path = ref.reformat()
+    ref.reformat()
 
     df = pd.read_csv(output_path)
     assert "ColA" in df.columns
