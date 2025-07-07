@@ -1,6 +1,5 @@
 import os
 import pytest
-import requests
 from src.modules.downloader import DataDownloader  
 
 @pytest.fixture
