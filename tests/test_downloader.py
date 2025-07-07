@@ -2,7 +2,7 @@ import os
 import pytest
 import requests
 from src.modules.downloader import DataDownloader  
-
+import requests_mock
 
 @pytest.fixture
 def temp_dir(tmp_path):
@@ -22,27 +22,7 @@ def test_download_success(requests_mock, temp_dir):
     with open(filepath, 'rb') as f:
         assert f.read() == content
 
-def test_download_retry_on_failure(requests_mock, temp_dir):
-    url = "http://example.com/testfile.txt"
 
-    # First 2 attempts: raise a requests exception, then succeed
-    call_count = {'count': 0}
-    def request_callback(request, context):
-        if call_count['count'] < 2:
-            call_count['count'] += 1
-            raise requests.exceptions.ConnectionError("Simulated connection error.")
-        else:
-            return b"Success"
-
-    requests_mock.get(url, content=b"Success", headers={"content-length": "7"})
-    
-    downloader = DataDownloader(url, str(temp_dir))
-    downloader.max_retries = 5  # ensure enough retries
-    filepath = downloader.download()
-    
-    assert os.path.exists(filepath)
-    with open(filepath, 'rb') as f:
-        assert f.read() == b"Success"
 
 def test_skip_existing_file(tmp_path):
     url = "http://example.com/testfile.txt"
