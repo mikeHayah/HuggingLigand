@@ -2,7 +2,6 @@ import os
 import pytest
 import requests
 from src.modules.downloader import DataDownloader  
-import requests_mock
 
 @pytest.fixture
 def temp_dir(tmp_path):
