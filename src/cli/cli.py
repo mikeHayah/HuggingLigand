@@ -3,14 +3,27 @@ import torch
 import multiprocessing as mp
 import click
 import logging
+import configparser
 
 from src.pipeline_blocks.preembedding_block import PreEmbeddingBlock
 from src.pipeline_blocks.prott5_embedding_block import Prott5EmbeddingBlock
 from src.pipeline_blocks.chemberta_embedding_block import ChembertaEmbeddingBlock
-from src.scripts.analysis import run_similarity_analysis, run_protein_similarity_analysis
+from src.cli.analysis import run_similarity_analysis, run_protein_similarity_analysis
+
+# Load configuration
+config = configparser.ConfigParser()
+config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'config.ini')
+config.read(config_path)
+
+if config.sections() == []:
+    raise FileNotFoundError(f"Configuration file not found at {config_path}. Please ensure it exists.")
+
+default_source = config.get('dataset', 'default_source', fallback='https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip')
+ligand_model_name = config.get('models', 'ligand_model', fallback='seyonec/ChemBERTa-zinc-base-v1')
+protein_model_name = config.get('models', 'protein_model', fallback='Rostlab/prot_t5_xl_half_uniref50-enc')
 
 @click.command()
-@click.option('--source', default='https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip', help='URL to the dataset.')
+@click.option('--source', default=default_source, help='URL to the dataset.')
 @click.option('-v', '--verbose', count=True, help='Enable verbose output. -v for WARNING, -vv for INFO, -vvv for DEBUG.')
 @click.option('--text-only', is_flag=True, help='Suppress graphical output.')
 @click.option('--rows', type=int, default=None, help='Number of rows to process from the dataset.')
@@ -41,19 +54,17 @@ def main(source, verbose, text_only, rows, output_dir, embed):
     logging.info(f"CPU optimization: Using {cpu_cores} threads")
 
     preembedding_block = PreEmbeddingBlock(source)
-    output_file = "ligands_embeddings"
     preembedding_block.run()
     myligands, myproteins = preembedding_block.get_output()
 
     if rows:
         myligands = myligands.head(rows)
         myproteins = myproteins.head(rows)
-        logging.info(f"Processing the first {rows} rows of the dataset.")
+        logging.info(f"Processing only the first {rows} rows of the dataset.")
 
     myligands_embd = None
     if embed in ['ligand', 'both']:
-        myligands = myligands.head(5)
-        chemberta_embedding_block = ChembertaEmbeddingBlock()
+        chemberta_embedding_block = ChembertaEmbeddingBlock(model_name=ligand_model_name)
         ligand_list = myligands['Ligand SMILES'].tolist()
         logging.info(f"Total number of ligands to process: {len(ligand_list)}")
         chemberta_embedding_block.set_input(ligand_list)
@@ -62,9 +73,9 @@ def main(source, verbose, text_only, rows, output_dir, embed):
 
     myproteins_embd = None
     if embed in ['protein', 'both']:
-        myproteins = myproteins.head(5)
-        prott5_embedding_block = Prott5EmbeddingBlock()
+        prott5_embedding_block = Prott5EmbeddingBlock(model_name=protein_model_name)
         protein_list = myproteins['BindingDB Target Chain Sequence'].tolist()
+        logging.info(f"Total number of proteins to process: {len(protein_list)}")
         prott5_embedding_block.set_input(protein_list)
         prott5_embedding_block.run()
         myproteins_embd = prott5_embedding_block.get_output()
@@ -84,12 +95,10 @@ def main(source, verbose, text_only, rows, output_dir, embed):
         os.makedirs(analysis_output_dir)
 
     if myligands_embd is not None:
-        csv_path = os.path.join(data_directory, output_file + '.csv')
+        csv_path = os.path.join(data_directory, 'ligands_embeddings.csv')
         ligand_csv_df = myligands_embd.copy()
         ligand_csv_df['embedding_str'] = ligand_csv_df['embedding'].apply(lambda x: ','.join(map(str, x)))
         ligand_csv_df.drop('embedding', axis=1).to_csv(csv_path, index=False)
-
-        logging.info(f"Saved embeddings for {len(myligands_embd)} ligands to {data_directory}")
         
         # Output statistics
         click.echo("\n--- Ligand Embedding Statistics ---")
@@ -105,11 +114,11 @@ def main(source, verbose, text_only, rows, output_dir, embed):
         protein_csv_df['embedding_str'] = protein_csv_df['embedding'].apply(lambda x: ','.join(map(str, x)))
         protein_csv_df.drop('embedding', axis=1).to_csv(protein_csv_path, index=False)
 
-        logging.info(f"Saved {len(myproteins_embd)} protein embeddings to {protein_csv_path}")
-
         # Output statistics
         click.echo("--- Protein Embedding Statistics ---")
         click.echo(f"Number of embeddings: {len(myproteins_embd)}")
+        if not myproteins_embd.empty:
+            click.echo(f"Embedding dimension: {len(myproteins_embd['embedding'].iloc[0])}")
         click.echo(f"CSV file: {protein_csv_path}")
         click.echo("------------------------------------\n")
 
