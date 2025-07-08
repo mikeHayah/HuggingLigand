@@ -4,7 +4,7 @@ import click
 import numpy as np
 
 
-def run_similarity_analysis(ligands_df, ligands_embd_df, text_only, output_dir):
+def run_ligand_similarity_analysis(ligands_df, ligands_embd_df, text_only, output_dir):
     """
     Performs and visualizes a comparative analysis of chemical similarity
     versus embedding similarity for ligands.
@@ -134,7 +134,7 @@ def run_protein_similarity_analysis(proteins_df, proteins_embd_df, text_only, ou
     """
     # --- 1. Dependency Check ---
     try:
-        from Bio import pairwise2
+        from Bio.Align import PairwiseAligner
         import matplotlib
         if not text_only:
             matplotlib.use('Qt5Agg')
@@ -163,6 +163,12 @@ def run_protein_similarity_analysis(proteins_df, proteins_embd_df, text_only, ou
     sequences = sampled_proteins['BindingDB Target Chain Sequence'].tolist()
     
     seq_sims_matrix = np.zeros((sample_size, sample_size))
+    aligner = PairwiseAligner()
+    aligner.match_score = 1.0
+    aligner.mismatch_score = 0.0
+    aligner.open_gap_score = 0.0
+    aligner.extend_gap_score = 0.0
+    
     for i in range(sample_size):
         for j in range(i, sample_size):
             seq1 = sequences[i]
@@ -172,11 +178,11 @@ def run_protein_similarity_analysis(proteins_df, proteins_embd_df, text_only, ou
                 score = 0
             else:
                 # Calculate global alignment score and normalize by the length of the shorter sequence.
-                alignments = pairwise2.align.globalxx(seq1, seq2)
-                if not alignments:
-                    score = 0
+                score = aligner.score(seq1, seq2)
+                if min(len(seq1), len(seq2)) > 0:
+                    score /= min(len(seq1), len(seq2))
                 else:
-                    score = alignments[0].score / min(len(seq1), len(seq2))
+                    score = 0
             seq_sims_matrix[i, j] = seq_sims_matrix[j, i] = score
 
     # Extract the upper triangle of the matrix.

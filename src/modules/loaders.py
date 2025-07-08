@@ -1,5 +1,5 @@
 import torch
-from transformers import AutoModelForMaskedLM, AutoTokenizer, T5EncoderModel, T5Tokenizer
+from transformers import AutoModel, AutoTokenizer, T5EncoderModel, T5Tokenizer
 
 
 def load_chemberta_model(device: torch.device, model_name: str = "seyonec/ChemBERTa-zinc-base-v1"):
@@ -21,7 +21,7 @@ def load_chemberta_model(device: torch.device, model_name: str = "seyonec/ChemBE
     """
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-    model = AutoModelForMaskedLM.from_pretrained(model_name)
+    model = AutoModel.from_pretrained(model_name)
     model.to(device)
     model.eval()
     return tokenizer, model

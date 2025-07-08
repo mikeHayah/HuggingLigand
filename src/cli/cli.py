@@ -8,7 +8,7 @@ import configparser
 from src.pipeline_blocks.preembedding_block import PreEmbeddingBlock
 from src.pipeline_blocks.prott5_embedding_block import Prott5EmbeddingBlock
 from src.pipeline_blocks.chemberta_embedding_block import ChembertaEmbeddingBlock
-from src.cli.analysis import run_similarity_analysis, run_protein_similarity_analysis
+from src.cli.analysis import run_ligand_similarity_analysis, run_protein_similarity_analysis
 
 # Load configuration
 config = configparser.ConfigParser()
@@ -127,7 +127,7 @@ def main(source, verbose, text_only, rows, output_dir, embed):
     if myligands_embd is not None and not myligands_embd.empty:
         click.echo("Running ligand similarity analysis...")
         ligands_for_analysis = myligands.loc[myligands_embd.index]
-        run_similarity_analysis(
+        run_ligand_similarity_analysis(
             ligands_for_analysis,
             myligands_embd,
             text_only,
