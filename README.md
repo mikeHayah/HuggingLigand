@@ -6,7 +6,8 @@ HuggingLigand is a modular deep learning framework for generating high-dimension
   
 This pipeline currently focuses on generating and managing protein and ligand embeddings using state-of-the-art transformer-based language models:
 * ProtT5: a protein language model pretrained on millions of protein sequences.  
-* ChemBERTa: a molecular language model trained on SMILES representations of chemical compounds.  
+* ChemBERTa: a molecular language model trained on SMILES representations of chemical compounds. [![arXiv](https://img.shields.io/badge/arXiv-2209.01712-b31b1b.svg)](https://arxiv.org/abs/2209.01712) [![Dataset](https://img.shields.io/badge/HuggingFace-ChemBERTa-blue.svg)](https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1)
+
 
 ---
 
@@ -18,9 +19,7 @@ This pipeline currently focuses on generating and managing protein and ligand em
 
 * **CLI-Friendly**: Seamlessly integrates into workflows via a clean, intuitive command-line interface.
 
-* **Reproducibility**: Fully configurable through Poetry-managed environments for reliable, consistent results.
-
-* **Dataset Version Controll**: A [Hugging-Ligand-Embeddings](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-Embeddings) are stored as a dataset card on the Hugging Face Hub to enhance experiment reproducibility and enable easy dataset versioning.
+* **Reproducibility**: Fully configurable through Poetry-managed environments for reliable, consistent results. while our [**Hugging-Ligand-Embeddings**](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-Embeddings) dataset card on the Hugging Face Hub providing versioned, reproducible embedding datasets for consistent experiments.
 
 ---
 
@@ -60,6 +59,14 @@ Download the latest .whl file from the dist/ directory and install it in your vi
 pip install huggingligand-1.0.0-py3-none-any.whl
 ```
 
+### From [![TestPyPI](https://img.shields.io/badge/TestPyPI-huggingligand-blue)](https://test.pypi.org/project/huggingligand/)(Sandbox)
+For testing the latest development build hosted on TestPyPI, you can install it directly via:
+
+```bash
+pip install -i https://test.pypi.org/simple/ huggingligand
+```
+
+
 ### Usage (Basic check)
 **Then execute the CLI script**:
 ```bash
@@ -70,10 +77,11 @@ huggingligand --help
 
 ## Dataset  
 
-**BindingDB** — a curated dataset of experimentally measured protein-ligand binding affinities (Liu et al., 2025) found at [BindingDB](https://www.bindingdb.org) DOI: 10.25504/FAIRsharing.3b36hk
+**BindingDB** — a curated dataset of experimentally measured protein-ligand binding affinities [![DOI](https://img.shields.io/badge/FAIRsharing-DOI-10.25504%2FFAIRsharing.3b36hk-blue.svg)](https://doi.org/10.25504/FAIRsharing.3b36hk)
+
 
 **HuggingEmbeddings** - We store the embeddings dataset on zenodo 
-Also, you can find our Dataset card on Hugging Face Hub:[Hugging-Ligand-Embeddings](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-Embeddings), powered by version control.
+Also, you can find versioned Dataset card on [![Dataset](https://img.shields.io/badge/HuggingFace-HuggingLigand_Embeddings-blue.svg)](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-embeddings)
 
 ---
 
