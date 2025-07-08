@@ -1,81 +1,100 @@
-# HuggingLigand: Where proteins embrace ligands through deep learning
-<pre>
-HuggingLigand is a DeepLearning pipeline designed for predicting the binding affinity between proteins and ligands. This prediction task is central to areas like drug discovery, biophysics, and computational biology, where determining how tightly a small molecule ligand binds to a protein target is crucial.
-The pipeline uses state-of-the-art transformer models to automatically convert molecular and sequence data into rich, high-dimensional embeddings:
-ProtT5: a protein language model pretrained on millions of protein sequences.
-ChemBERTa: a molecular language model trained on SMILES representations of chemical compounds.
-These embeddings are concatenated and fed into a customizable  model that learns to predict continuous binding affinity values (e.g., Kd, Ki, or IC50 values).
-</pre> 
+# **HuggingLigand**: Learning the Language of a Molecular Hug
+**A Deep Learning framework for protein–ligand affinity prediction.**
 
-
-## Dataset  
-
-**BindingDB** — a curated dataset of experimentally measured protein-ligand binding affinities (Liu et al., 2025) found at [BindingDB](https://www.bindingdb.org).
+## Project Description
+HuggingLigand is a modular deep learning framework for generating high-dimensional embeddings from protein sequences and small molecule structures — with the ultimate goal of predicting binding affinities between them. This prediction task is central to areas like drug discovery, biophysics, and computational biology, where determining how tightly a small molecule ligand binds to a protein target is crucial.  
+  
+This pipeline currently focuses on generating and managing protein and ligand embeddings using state-of-the-art transformer-based language models:
+* ProtT5: a protein language model pretrained on millions of protein sequences.  
+* ChemBERTa: a molecular language model trained on SMILES representations of chemical compounds.  
 
 ---
 
+## Why HuggingLigand?
 
-##  Workflow  
+* **Modular Design**: Each pipeline block (preprocessing, embedding, postprocessing) is independent, extensible, and easy to maintain.
 
-1. **Data Preprocessing**
-2. **Protein and Ligand Embedding Generation**
-3. **Data Postprocessing**
-3. **Training Affinity Prediction Model**
-4. **Model Evaluation**
-5. **Visualization of Results**
+* **State-of-the-art Models**: Leverages powerful transformer architectures without requiring deep NLP knowledge.
 
+* **CLI-Friendly**: Seamlessly integrates into workflows via a clean, intuitive command-line interface.
+
+* **Reproducibility**: Fully configurable through Poetry-managed environments for reliable, consistent results.
+
+* **Dataset Version Controll**: A [Hugging-Ligand-Embeddings](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-Embeddings) are stored as a dataset card on the Hugging Face Hub to enhance experiment reproducibility and enable easy dataset versioning.
 
 ---
 
-## Datasets and Model 
-We store the embeddings dataset on Hugging Face Hub:[Hugging-Ligand-Embeddings](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-Embeddings)
-and our Model [HuggingLigand Affinity Predictor](https://huggingface.co/RSE-Group11/hugging-ligand-affinity-predictor)
-<pre>
+## Current Features
 
-Data-repo
-├── data/
-│   ├── raw/                  # Original BindingDB data 
-│   ├── processed/            # Preprocessed/cleaned datasets
-│   ├── embeddings/           # Precomputed protein and ligand embeddings
-│   └── huggings/             # Combined embeddings for affinity model
-│        ├── train/           # Training dataset
-│        ├── valid/           # Validation dataset
-│        └── test/            # testing dataset
-└── Model_registery           # Save Model checkpoint
-</pre> 
----
+* Preprocessing and formatting of **BindingDB**  datasets. 
+* A 'Bindingdata' class for extensible and efficient data manipulation.
+* Automatic embedding generation for protein sequences and ligand SMILES strings.  
+* Export of embedding datasets for downstream tasks.  
+* Command-line interface (CLI) for seamless embedding generation and data preparation.  
 
-## Running the application
-To simply run the application, get the current *.whl file from the dist directory here and install it into a venv with pip by inserting the correct version number:
-```bash
-pip install huggingligand-1.0.0-py3-none-any.whl
-```
+## Project Roadmap
 
-You can then create a folder to store data and results and run the the app with (it is recommended to use --rows argument to reduce runtime):
-```bash
-mkdir huggingligand
-cd huggingligand
-huggingligand --source https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip --rows 100
-```
-
-And get all available options with:
-```bash
-huggingligand --help
-```
+The current release covers embedding generation and data preparation steps. The next development phase will integrate these embeddings into a binding affinity prediction model, enabling end-to-end learning from raw molecular data to continuous affinity values(e.g., Kd, Ki, or IC50 values).
+Future plans include:
+- Developing an affinity prediction module.
+- Implementing result visualization and interpretability tools.
+- Expanding model support for additional molecular representations.
 
 ---
 
 ## Installation and Usage
+You can install HuggingLigand either from source for development, or as a pre-built wheel for normal use.
+### From Source
 To install HuggingLigand including source codes, clone the repository and install the required dependencies with `poetry`:
+
 ```bash
 git clone https://codebase.helmholtz.cloud/tud-rse-pojects-2025/group-11.git
 cd group-11
 poetry install
 ```
 
-Then execute the CLI script:
+### From Wheel
+Download the latest .whl file from the dist/ directory and install it in your virtual environment:
+
 ```bash
-poetry run python src/cli/cli.py --source https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip --rows 100
+pip install huggingligand-1.0.0-py3-none-any.whl
+```
+
+### Usage (Basic check)
+**Then execute the CLI script**:
+```bash
+huggingligand --help
+```
+
+---
+
+## Dataset  
+
+**BindingDB** — a curated dataset of experimentally measured protein-ligand binding affinities (Liu et al., 2025) found at [BindingDB](https://www.bindingdb.org) DOI: 10.25504/FAIRsharing.3b36hk
+
+**HuggingEmbeddings** - We store the embeddings dataset on zenodo 
+Also, you can find our Dataset card on Hugging Face Hub:[Hugging-Ligand-Embeddings](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-Embeddings), powered by version control.
+
+---
+
+## Running the application
+
+Once installed, you can run HuggingLigand to process data and generate embeddings.
+You can create a folder to store data and results and run the the app with (it is recommended to use --rows argument to reduce runtime):
+
+```bash
+mkdir huggingligand
+cd huggingligand
+huggingligand --source https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip --rows 100
+```
+
+And get all available CLI options with:
+```bash
+huggingligand --help
+```
+You can also test it via:
+```bash
+poetry run python src/cli/cli.py --help
 ```
 
 ---
@@ -133,4 +152,17 @@ HuggingLigand/
 ├── LICENSE
 └── (Other metadata)
 '''</pre> 
+
+## Contributing
+
+
+
+## Links & Resources
+
+
+## License
+
+
+## Acknowledgements
+
 
