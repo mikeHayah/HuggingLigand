@@ -108,7 +108,7 @@ poetry run python src/cli/cli.py --help
 ---
 
 ## HuggingLigand Directory Structure
-<pre>  
+
 ```
 HuggingLigand/
 ├── src/
@@ -168,7 +168,7 @@ HuggingLigand/
 ├── pyproject.lock
 ├── pytest.ini
 └── README.md
-```</pre> 
+```
 
 ## Contributing
 Thank you for your interest in contributing to HuggingLigand! We welcome contributions from the community to help improve protein-ligand binding affinity prediction.  
@@ -178,6 +178,20 @@ By participating in this project, you agree to foster a respectful, inclusive, a
 For detailed guidelines on how to contribute — including setting up your development environment, reporting issues, and submitting pull requests — please refer to the CONTRIBUTING.md file.  
 
 ## Links & Resources
+* Project Repository: [HuggingLigand on GitLab](https://codebase.helmholtz.cloud/tud-rse-pojects-2025/group-11/-/tree/main?ref_type=heads)
+
+* TestPyPI Sandbox: [huggingligand on TestPyPI](https://test.pypi.org/project/huggingligand/)
+
+* Dataset on Zenodo sandbox publication: [huggingligand on Zenodo]()
+
+* Dataset on Hugging Face Hub: [Hugging-Ligand-Embeddings](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-embeddings)
+
+* ChemBERTa Pretrained Model: [ChemBERTa](https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1)
+
+* ProtT5 Pretrained Model: [ProtT5-XL-UniRef50]()
+
+* BindingDB Data Source: [BindingDB](https://doi.org/10.25504/FAIRsharing.3b36hk)
+
 
 
 ## License
