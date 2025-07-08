@@ -109,7 +109,7 @@ poetry run python src/cli/cli.py --help
 
 ## HuggingLigand Directory Structure
 <pre>  
-'''
+```
 HuggingLigand/
 ├── src/
 │   ├── cli/
@@ -168,7 +168,7 @@ HuggingLigand/
 ├── pyproject.lock
 ├── pytest.ini
 └── README.md
-'''</pre> 
+```</pre> 
 
 ## Contributing
 Thank you for your interest in contributing to HuggingLigand! We welcome contributions from the community to help improve protein-ligand binding affinity prediction.  
