@@ -112,13 +112,19 @@ poetry run python src/cli/cli.py --help
 '''
 HuggingLigand/
 ├── src/
-│   ├── scripts/                        # CLI scripts for training, inference, etc.
+│   ├── cli/
+│   │   ├── cli.py
+│   │   └── analysis.py
+│   │
+│   ├── scripts/                         # scripts for generating embeddings training, inference, etc.
+│   │   ├── generate_embeddings.py                     
 │   │   ├── train_huggingligand.py
 │   │   └── evaluate_huggingligand.py
 │   │
-│   ├── pipeline_blocks/
+│   ├── pipeline_blocks/                # Blocks for building 
 │   │   ├── preembedding_block.py       # Data cleaning, transformation, splitting
-│   │   ├── embedding_block.py          # Generate embeddings and save them
+│   │   ├── prott5_embedding_block.py   # Generate embeddings for proteins
+│   │   ├── chemberta_embedding_block.py# Generate embeddings for Ligands
 │   │   ├── postembedding_block.py      # Data hugging, and resplitting into train/valid/test
 │   │   ├── training_block.py           # training for affinity model
 │   │   └── evaluation_block.py         # infer the affinity of couple of protein and ligand
@@ -129,41 +135,47 @@ HuggingLigand/
 │   │   ├── affinity_predictor.py       # Third model for affinity prediction
 │   │   └── utils/                      # Custom layers, loss functions, metrics etc.
 │   │
-│   ├── modules/                        # Any object to be used in pipeline blocks
-│   │   ├── downloader                  # Data downloading
-│   │   ├── reformmater                 # Put Data into good format
-│   │   ├── preprocessor                # Apply processing functions on Data
-│   │   └── ....
+│   ├── modules/                          # Utils
+│   │   ├── downloader.py                 # Data downloading
+│   │   ├── reformatter.py                # Put Data into good format
+│   │   ├── bindingdata.py                # Apply processing functions on Data
+│   │   ├── loader.py 
+│   │   └── embedding_utils.py
 │   │
 │   └──  config/
-│       ├── config.yaml                 # General config for paths, hyperparameters
-│       └── model_params.yaml           # Architecture, optimizer settings etc.
+│       └── config.yaml                 # General config for paths, hyperparameters
 │   
-├── tests/                    # Unit and integration tests for models, pipelines
-│   ├── generate_embeddings.py
-│   ├── train_affinity_model.py
-│   ├── infer_affinity.py
-│   └── evaluate_model.py
-│
-├── scripts/                  # CLI scripts for training, inference, etc.
-│   ├── train_huggingligand.py
-│   └── evaluate_huggingligand.py
+├── tests/                              # Unit and integration tests for models, pipelines
+│   ├── test_preembedding.py
+│   ├── test_prott5_embedder.py
+│   ├── test_chemberta_embedder.py
+│   ├── test_embedding_utils.py
+│   ├── test_bindingdata.py
+│   ├── test_loaders.py
+│   ├── test_downloader.py
+│   └── test_reformatter.py
 │
 ├── logs/                     # Training and evaluation logs
 │
 ├── results/                  # Model predictions, performance plots
 │
-├── requirements.txt
-├── environment.yml           # Conda environment (if used)
 ├── .gitlab-ci.yml            # CI/CD configuration for GitLab
-├── README.md
+├── CITATION.cff
+├── CONDUCT.md
+├── CONTRIBUTING.md
 ├── LICENSE
-└── (Other metadata)
+├── poetry.lock
+├── pyproject.lock
+├── pytest.ini
+└── README.md
 '''</pre> 
 
 ## Contributing
+Thank you for your interest in contributing to HuggingLigand! We welcome contributions from the community to help improve protein-ligand binding affinity prediction.  
 
+By participating in this project, you agree to foster a respectful, inclusive, and collaborative environment. Be considerate in your interactions with others, and help us maintain a positive community.  
 
+For detailed guidelines on how to contribute — including setting up your development environment, reporting issues, and submitting pull requests — please refer to the CONTRIBUTING.md file.  
 
 ## Links & Resources
 
