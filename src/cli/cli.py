@@ -26,7 +26,7 @@ protein_model_name = config.get('models', 'protein_model', fallback='Rostlab/pro
 @click.option('--source', default=default_source, help='URL to the dataset.')
 @click.option('-v', '--verbose', count=True, help='Enable verbose output. -v for WARNING, -vv for INFO, -vvv for DEBUG.')
 @click.option('--text-only', is_flag=True, help='Suppress graphical output.')
-@click.option('--rows', type=int, default=None, help='Number of rows to process from the dataset.')
+@click.option('--rows', type=int, default=5, help='Number of rows to process from the dataset.')
 @click.option('--output-dir', default=None, help='Directory to save the embeddings and analysis results.')
 @click.option('--embed', type=click.Choice(['ligand', 'protein', 'both']), default='both', help='Specify what to embed.')
 def main(source, verbose, text_only, rows, output_dir, embed):
@@ -53,7 +53,7 @@ def main(source, verbose, text_only, rows, output_dir, embed):
 
     logging.info(f"CPU optimization: Using {cpu_cores} threads")
 
-    preembedding_block = PreEmbeddingBlock(source)
+    preembedding_block = PreEmbeddingBlock(source, remove_duplicates=True)
     preembedding_block.run()
     myligands, myproteins = preembedding_block.get_output()
 
