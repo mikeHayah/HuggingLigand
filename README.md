@@ -207,5 +207,10 @@ Please review the LICENSE file for full details.
 
 ## Acknowledgements
 
+This work was carried out as part of the Lab Course: Research in Software Engineering at TU-Dresden, organized by the Computational Science Department at Helmholtz-Zentrum Dresden-Rossendorf (HZDR). We would like to sincerely thank Dr. Guido Juckeland and course coordinators for his supervision, guidance, and valuable feedback throughout the project.
+
+Our gratitude also goes to the course coordinator Katja Linnemann for organizing and facilitating the course framework and providing an engaging environment for applied software engineering research.
+
+We further acknowledge the use of codebase.helmholtz.cloud as the primary platform for version control, collaborative development, and project management.
 
 
