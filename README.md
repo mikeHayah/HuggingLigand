@@ -196,7 +196,16 @@ For detailed guidelines on how to contribute — including setting up your devel
 
 ## License
 
+This project is licensed under the terms of the MIT License.
+It also makes use of third-party components, which are subject to their respective licenses:
+
+* ProtT5: MIT License / Academic Free License v3.0
+* ChemBERTa: MIT License
+* BindingDB: Creative Commons Attribution 3.0 License
+
+Please review the LICENSE file for full details.
 
 ## Acknowledgements
+
 
 
