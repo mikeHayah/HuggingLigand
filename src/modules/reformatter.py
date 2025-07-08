@@ -100,4 +100,3 @@ class Reformatter:
         file_path = self._unzip_if_needed()
         df = self._read_file(file_path)
         df.to_csv(self.reformated_path, index=False)
-        print(f"Cleaned dataset saved to {self.reformated_path}")

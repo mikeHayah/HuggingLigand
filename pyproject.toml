@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "huggingligand"
-version = "1.0.0"
+version = "1.1.0"
 description = "Protein embedding and analysis with ProtT5"
 authors = [
     "Ramy Boulos",

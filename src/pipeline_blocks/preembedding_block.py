@@ -10,7 +10,7 @@ class PreEmbeddingBlock:
     Downloads raw data, reformats it, and prepares it for embedding.
     """
 
-    def __init__(self, download_url, remove_duplicates=False):
+    def __init__(self, download_url, data_path = "data/raw", remove_duplicates=False):
         """
         Parameters
         ----------
@@ -22,8 +22,7 @@ class PreEmbeddingBlock:
             If True, removes duplicate ligands and proteins.
         """
         self.download_url = download_url
-        self.raw_data_path = "data/raw"
-        self.output_path = "data/processed"
+        self.data_path = data_path
         self.ligand = None
         self.protein = None 
         self.remove_duplicates = remove_duplicates
@@ -34,9 +33,9 @@ class PreEmbeddingBlock:
         Execute the preprocessing pipeline: download, reformat, and save the dataset.
         """
         # Download raw dataset
-        downloader = DataDownloader(self.download_url, self.raw_data_path)
+        downloader = DataDownloader(self.download_url, self.data_path)
         downloader.download()
-        print(f"Downloaded file: {downloader.filename}")
+        print(f"Using file: {downloader.filename}")
 
         # Reformat the dataset
         reformated_csv_path=downloader.filename.replace('.zip', '_cleaned.csv')

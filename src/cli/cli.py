@@ -19,6 +19,7 @@ if config.sections() == []:
     raise FileNotFoundError(f"Configuration file not found at {config_path}. Please ensure it exists.")
 
 default_source = config.get('dataset', 'default_source', fallback='https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip')
+data_path = config.get('paths', 'data_path', fallback='data/raw')
 ligand_model_name = config.get('models', 'ligand_model', fallback='seyonec/ChemBERTa-zinc-base-v1')
 protein_model_name = config.get('models', 'protein_model', fallback='Rostlab/prot_t5_xl_half_uniref50-enc')
 
@@ -53,7 +54,7 @@ def main(source, verbose, text_only, rows, output_dir, embed):
 
     logging.info(f"CPU optimization: Using {cpu_cores} threads")
 
-    preembedding_block = PreEmbeddingBlock(source, remove_duplicates=True)
+    preembedding_block = PreEmbeddingBlock(source, data_path=data_path, remove_duplicates=True)
     preembedding_block.run()
     myligands, myproteins = preembedding_block.get_output()
 
@@ -68,7 +69,7 @@ def main(source, verbose, text_only, rows, output_dir, embed):
         ligand_list = myligands['Ligand SMILES'].tolist()
         logging.info(f"Total number of ligands to process: {len(ligand_list)}")
         chemberta_embedding_block.set_input(ligand_list)
-        chemberta_embedding_block.run(batch_size=128)
+        chemberta_embedding_block.run()
         myligands_embd = chemberta_embedding_block.get_output()
 
     myproteins_embd = None
