@@ -11,31 +11,17 @@ logger = logging.getLogger(__name__)
 class ProtT5Embedder:
     """
     A class to generate protein embeddings using the ProtT5 model.
-    
-    Parameters
-    ----------
-    device : str, optional
-        The device to run the model on ('cpu' or 'cuda'). Default is 'cpu'.
-    model_name : str, optional
-        The name of the pre-trained ProtT5 model to load.
-        Default is configured in config.ini under [models].protein_model.
     """
 
-    def __init__(self, device: str = "cpu", model_name: str = "Rostlab/prot_t5_xl_half_uniref50-enc"):
+    def __init__(self, device: str = "cpu"):
         """
         Initialize the ProtT5Embedder.
 
-        Parameters
-        ----------
-        device : str
-            The device to run the model on ('cpu' or 'cuda'). Default is 'cpu'.
-        model_name : str
-            The name of the pre-trained ProtT5 model to load.
-            Default is configured in config.ini under [models].protein_model.
+        Args:
+            device (str): The device to run the model on ('cpu' or 'cuda').
         """
         self.device = torch.device(device)
-        self.model_name = model_name
-        self.tokenizer, self.model = load_prott5_model(self.device, self.model_name)
+        self.tokenizer, self.model = load_prott5_model(self.device)
         self.model.eval()
 
         if self.device.type == "cpu":
@@ -94,9 +80,6 @@ class ProtT5Embedder:
                     self._cache[seq] = mean_emb
                     all_embeddings.append(mean_emb)
 
-            # Clear intermediate variables to free memory
-            del inputs, input_ids, attention_mask, outputs, embeddings
-            if self.device.type == "cuda":
-                torch.cuda.empty_cache()
+            torch.cuda.empty_cache()
 
         return all_embeddings
