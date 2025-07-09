@@ -6,7 +6,8 @@ HuggingLigand is a modular deep learning framework for generating high-dimension
   
 This pipeline currently focuses on generating and managing protein and ligand embeddings using state-of-the-art transformer-based language models:
 * ProtT5: a protein language model pretrained on millions of protein sequences.  
-* ChemBERTa: a molecular language model trained on SMILES representations of chemical compounds. [![arXiv](https://img.shields.io/badge/arXiv-2209.01712-b31b1b.svg)](https://arxiv.org/abs/2209.01712) [![Dataset](https://img.shields.io/badge/HuggingFace-ChemBERTa-blue.svg)](https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1)
+* ChemBERTa: a molecular language model trained on SMILES representations of chemical compounds.  
+[![arXiv](https://img.shields.io/badge/arXiv-2209.01712-b31b1b.svg)](https://arxiv.org/abs/2209.01712) [![Dataset](https://img.shields.io/badge/HuggingFace-ChemBERTa-blue.svg)](https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1)
 
 
 ---
@@ -60,7 +61,8 @@ pip install huggingligand-1.0.0-py3-none-any.whl
 ```
 
 ### From TestPyPI (Sandbox)
-[![TestPyPI](https://img.shields.io/badge/TestPyPI-huggingligand-blue)](https://test.pypi.org/project/huggingligand/)
+[![TestPyPI](https://img.shields.io/badge/TestPyPI-huggingligand-blue)](https://test.pypi.org/project/huggingligand/)  
+
 For testing the latest development build hosted on TestPyPI, you can install it directly via:
 
 ```bash
@@ -78,12 +80,12 @@ huggingligand --help
 
 ## Dataset  
 
-**BindingDB** — a curated dataset of experimentally measured protein-ligand binding affinities 
+**BindingDB** — a curated dataset of experimentally measured protein-ligand binding affinities.  
 [![DOI](https://img.shields.io/badge/DOI-10.25504%2FFAIRsharing.3b36hk-blue.svg)](https://doi.org/10.25504/FAIRsharing.3b36hk)
 
 
 **HuggingEmbeddings** - We store the embeddings dataset on zenodo 
-Also, you can find versioned Dataset card 
+Also, you can find versioned Dataset card.  
 [![Dataset](https://img.shields.io/badge/HuggingFace-HuggingLigand_Embeddings-blue.svg)](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-embeddings)
 
 ---
