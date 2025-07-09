@@ -59,7 +59,8 @@ Download the latest .whl file from the dist/ directory and install it in your vi
 pip install huggingligand-1.0.0-py3-none-any.whl
 ```
 
-### From TestPyPI (Sandbox)[![TestPyPI](https://img.shields.io/badge/TestPyPI-huggingligand-blue)](https://test.pypi.org/project/huggingligand/)
+### From TestPyPI (Sandbox)
+[![TestPyPI](https://img.shields.io/badge/TestPyPI-huggingligand-blue)](https://test.pypi.org/project/huggingligand/)
 For testing the latest development build hosted on TestPyPI, you can install it directly via:
 
 ```bash
@@ -77,11 +78,13 @@ huggingligand --help
 
 ## Dataset  
 
-**BindingDB** — a curated dataset of experimentally measured protein-ligand binding affinities [![DOI](https://img.shields.io/badge/DOI-10.25504%2FFAIRsharing.3b36hk-blue.svg)](https://doi.org/10.25504/FAIRsharing.3b36hk)
+**BindingDB** — a curated dataset of experimentally measured protein-ligand binding affinities 
+[![DOI](https://img.shields.io/badge/DOI-10.25504%2FFAIRsharing.3b36hk-blue.svg)](https://doi.org/10.25504/FAIRsharing.3b36hk)
 
 
 **HuggingEmbeddings** - We store the embeddings dataset on zenodo 
-Also, you can find versioned Dataset card on [![Dataset](https://img.shields.io/badge/HuggingFace-HuggingLigand_Embeddings-blue.svg)](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-embeddings)
+Also, you can find versioned Dataset card 
+[![Dataset](https://img.shields.io/badge/HuggingFace-HuggingLigand_Embeddings-blue.svg)](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-embeddings)
 
 ---
 
