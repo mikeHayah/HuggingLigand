@@ -7,7 +7,7 @@ HuggingLigand is a modular deep learning framework for generating high-dimension
 This pipeline currently focuses on generating and managing protein and ligand embeddings using state-of-the-art transformer-based language models:
 * ProtT5: a protein language model pretrained on millions of protein sequences.  
 * ChemBERTa: a molecular language model trained on SMILES representations of chemical compounds.  
-[![arXiv](https://img.shields.io/badge/arXiv-2209.01712-b31b1b.svg)](https://arxiv.org/abs/2209.01712) [![Dataset](https://img.shields.io/badge/HuggingFace-ChemBERTa-blue.svg)](https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1)
+[![arXiv](https://img.shields.io/badge/arXiv-2209.01712-b31b1b.svg)](https://arxiv.org/abs/2209.01712) [![Dataset](https://img.shields.io/badge/HuggingFace-ChemBERTa-yellow.svg)](https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1)
 
 
 ---
@@ -86,8 +86,7 @@ huggingligand --help
 
 **HuggingEmbeddings** - We store the embeddings dataset on zenodo 
 Also, you can find versioned Dataset card.  
-[![Dataset](https://img.shields.io/badge/HuggingFace-HuggingLigand_Embeddings-blue.svg)](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-embeddings)
-
+[![DOI](https://img.shields.io/badge/DOI-10.57967%2Fhf%2F5960-yellow)](https://doi.org/10.57967/hf/5960)
 ---
 
 ## Running the application
