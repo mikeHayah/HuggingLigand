@@ -1,6 +1,7 @@
 import torch
 import pandas as pd
 import time
+import logging
 
 from src.models.chemberta_embedding import ChembertaEmbedder
 
@@ -63,7 +64,7 @@ class ChembertaEmbeddingBlock:
         return self.ligands_embd
     
     
-    def run(self, batch_size: int = 32):
+    def run(self, batch_size: int = 4):
         """
         Executes the embedding generation process for the input ligands.
 
@@ -74,7 +75,7 @@ class ChembertaEmbeddingBlock:
         ----------
         batch_size : int, optional
             The number of SMILES strings to process in a single batch.
-            Default is 32.
+            Default is 4.
         
         Raises
         ------
@@ -86,7 +87,7 @@ class ChembertaEmbeddingBlock:
             raise ValueError("Ligands input not set. Use set_input() before calling run().")
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
-        print(f"Processing {len(self.ligands)} ligands on {device}")
+        logging.info(f"Processing {len(self.ligands)} ligands on {device}")
         
         embedder = ChembertaEmbedder(device=device, model_name=self.model_name)
         
@@ -105,4 +106,4 @@ class ChembertaEmbeddingBlock:
         })
         
         total_time = time.time() - start_time
-        print(f"\nCompleted processing {len(self.ligands)} ligands in {total_time:.1f} seconds ({total_time/60:.1f} minutes).")
+        logging.info(f"\nCompleted processing {len(self.ligands)} ligands in {total_time:.1f} seconds ({total_time/60:.1f} minutes).")

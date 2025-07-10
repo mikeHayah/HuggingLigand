@@ -9,8 +9,7 @@ def dummy_url():
 def test_preembeddingblock_initialization(dummy_url):
     block = PreEmbeddingBlock(dummy_url)
     assert block.download_url == dummy_url
-    assert block.raw_data_path == "data/raw"
-    assert block.output_path == "data/processed"
+    assert block.data_path == "data/raw"
     assert block.ligand is None
     assert block.protein is None
 

@@ -1,5 +1,7 @@
 import pandas as pd
 import torch
+import time
+import logging
 
 from src.models.protT5_embedding import ProtT5Embedder
 
@@ -59,6 +61,15 @@ class Prott5EmbeddingBlock:
             raise ValueError("Proteins input not set. Use set_input() before calling run().")
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
+
+        logging.info(f"Processing {len(self.proteins)} proteins on {device}")
+        
         embedder = ProtT5Embedder(device=device, model_name=self.model_name)
+
+        start_time = time.time()
+
         embeddings = embedder.embed(self.proteins, show_progress=True)
         self.proteins_embd = pd.DataFrame({'smiles': self.proteins, 'embedding': embeddings})
+
+        total_time = time.time() - start_time
+        logging.info(f"\nCompleted processing {len(self.proteins)} proteins in {total_time:.1f} seconds ({total_time/60:.1f} minutes).")

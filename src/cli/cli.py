@@ -8,7 +8,7 @@ import configparser
 from src.pipeline_blocks.preembedding_block import PreEmbeddingBlock
 from src.pipeline_blocks.prott5_embedding_block import Prott5EmbeddingBlock
 from src.pipeline_blocks.chemberta_embedding_block import ChembertaEmbeddingBlock
-from src.cli.analysis import run_similarity_analysis, run_protein_similarity_analysis
+from src.cli.analysis import run_ligand_similarity_analysis, run_protein_similarity_analysis
 
 # Load configuration
 config = configparser.ConfigParser()
@@ -19,6 +19,7 @@ if config.sections() == []:
     raise FileNotFoundError(f"Configuration file not found at {config_path}. Please ensure it exists.")
 
 default_source = config.get('dataset', 'default_source', fallback='https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip')
+data_path = config.get('paths', 'data_path', fallback='data/raw')
 ligand_model_name = config.get('models', 'ligand_model', fallback='seyonec/ChemBERTa-zinc-base-v1')
 protein_model_name = config.get('models', 'protein_model', fallback='Rostlab/prot_t5_xl_half_uniref50-enc')
 
@@ -26,7 +27,7 @@ protein_model_name = config.get('models', 'protein_model', fallback='Rostlab/pro
 @click.option('--source', default=default_source, help='URL to the dataset.')
 @click.option('-v', '--verbose', count=True, help='Enable verbose output. -v for WARNING, -vv for INFO, -vvv for DEBUG.')
 @click.option('--text-only', is_flag=True, help='Suppress graphical output.')
-@click.option('--rows', type=int, default=None, help='Number of rows to process from the dataset.')
+@click.option('--rows', type=int, default=5, help='Number of rows to process from the dataset.')
 @click.option('--output-dir', default=None, help='Directory to save the embeddings and analysis results.')
 @click.option('--embed', type=click.Choice(['ligand', 'protein', 'both']), default='both', help='Specify what to embed.')
 def main(source, verbose, text_only, rows, output_dir, embed):
@@ -53,7 +54,7 @@ def main(source, verbose, text_only, rows, output_dir, embed):
 
     logging.info(f"CPU optimization: Using {cpu_cores} threads")
 
-    preembedding_block = PreEmbeddingBlock(source)
+    preembedding_block = PreEmbeddingBlock(source, data_path=data_path, remove_duplicates=True)
     preembedding_block.run()
     myligands, myproteins = preembedding_block.get_output()
 
@@ -68,7 +69,7 @@ def main(source, verbose, text_only, rows, output_dir, embed):
         ligand_list = myligands['Ligand SMILES'].tolist()
         logging.info(f"Total number of ligands to process: {len(ligand_list)}")
         chemberta_embedding_block.set_input(ligand_list)
-        chemberta_embedding_block.run(batch_size=128)
+        chemberta_embedding_block.run()
         myligands_embd = chemberta_embedding_block.get_output()
 
     myproteins_embd = None
@@ -126,7 +127,7 @@ def main(source, verbose, text_only, rows, output_dir, embed):
     if myligands_embd is not None and not myligands_embd.empty:
         click.echo("Running ligand similarity analysis...")
         ligands_for_analysis = myligands.loc[myligands_embd.index]
-        run_similarity_analysis(
+        run_ligand_similarity_analysis(
             ligands_for_analysis,
             myligands_embd,
             text_only,
