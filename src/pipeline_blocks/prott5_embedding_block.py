@@ -1,6 +1,6 @@
 import pandas as pd
-import torch
 import time
+import torch
 import logging
 
 from src.models.protT5_embedding import ProtT5Embedder
@@ -69,7 +69,13 @@ class Prott5EmbeddingBlock:
         start_time = time.time()
 
         embeddings = embedder.embed(self.proteins, show_progress=True)
-        self.proteins_embd = pd.DataFrame({'smiles': self.proteins, 'embedding': embeddings})
+
+        embedding_arrays = [emb.cpu().numpy() for emb in embeddings]
+
+        self.proteins_embd = pd.DataFrame({
+            'smiles': self.proteins, 
+            'embedding': embedding_arrays
+            })
 
         total_time = time.time() - start_time
         logging.info(f"\nCompleted processing {len(self.proteins)} proteins in {total_time:.1f} seconds ({total_time/60:.1f} minutes).")
