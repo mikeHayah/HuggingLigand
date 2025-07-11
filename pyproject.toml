@@ -14,7 +14,7 @@ packages = [
 ]
 
 [tool.poetry.scripts]
-huggingligand = "src.scripts.cli:main"
+huggingligand = "src.cli.cli:main"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.12"
