@@ -63,7 +63,7 @@ pip install huggingligand-1.0.0-py3-none-any.whl
 ### From TestPyPI (Sandbox)
 [![TestPyPI](https://img.shields.io/badge/TestPyPI-huggingligand-blue)](https://test.pypi.org/project/huggingligand/)  
 
-For testing the latest development build hosted on TestPyPI, you can install it directly via:
+For testing the latest build hosted on TestPyPI, you can install it directly (after having created a virtual environment based on Python 3.11) via:
 
 ```bash
 pip install -i https://test.pypi.org/simple/ huggingligand
