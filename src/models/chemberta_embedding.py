@@ -2,7 +2,7 @@ import logging
 import torch
 from tqdm import tqdm
 
-from src.modules.embedding_utils import mean_pool_embedding
+from src.models.utils.embedding_utils import mean_pool_embedding
 from src.modules.loaders import load_chemberta_model
 
 
