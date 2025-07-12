@@ -159,6 +159,16 @@ HuggingLigand/
 └── README.md
 ```
 
+## Example Analysis Results
+
+<h3 align="center">Distances and Similarities</h3>
+
+<p align="center">
+  <img src="results/ligands_embeddings_similarities_distances.jpeg" alt="Ligands similarities distances" width="45%"/>
+  <img src="results/proteins_embeddings_similarities_distances.jpeg" alt="Proteins similarities distances" width="45%"/>
+</p>
+
+
 ## Contributing
 Thank you for your interest in contributing to HuggingLigand! We welcome contributions from the community to help improve protein-ligand binding affinity prediction.  
 
