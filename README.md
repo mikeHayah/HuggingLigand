@@ -1,7 +1,6 @@
 # **HuggingLigand**: Learning the Language of a Molecular Hug
 **A Deep Learning framework for protein–ligand affinity prediction.**
 
-[![arXiv](https://img.shields.io/badge/arXiv-2209.01712-b31b1b.svg)](https://arxiv.org/abs/2209.01712) [![Dataset](https://img.shields.io/badge/HuggingFace-ChemBERTa-yellow.svg)](https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1)
 
 ## Project Description
 
@@ -9,7 +8,9 @@ HuggingLigand is a modular deep learning framework for generating high-dimension
   
 This pipeline currently focuses on generating and managing protein and ligand embeddings using state-of-the-art transformer-based language models:
 * ProtT5: a protein language model pretrained on millions of protein sequences.  
+[![IEEE](https://img.shields.io/badge/IEEE-10.1109%2FTPAMI.2021.3095381-darkblue.svg)](https://doi.org/10.1109/TPAMI.2021.3095381) [![Hugging Face](https://img.shields.io/badge/HuggingFace-prot_t5_xl_half_uniref50--enc-yellow)](https://huggingface.co/Rostlab/prot_t5_xl_half_uniref50-enc)
 * ChemBERTa: a molecular language model trained on SMILES representations of chemical compounds.  
+[![arXiv](https://img.shields.io/badge/arXiv-2209.01712-b31b1b.svg)](https://arxiv.org/abs/2209.01712) [![Hugging Face](https://img.shields.io/badge/HuggingFace-ChemBERTa-yellow.svg)](https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1)
 
 ## Why HuggingLigand?
 
@@ -88,10 +89,12 @@ huggingligand --help
 ## Dataset
 
 **BindingDB** - A curated dataset of experimentally measured protein-ligand binding affinities.  
-[![DOI](https://img.shields.io/badge/DOI-10.25504%2FFAIRsharing.3b36hk-blue.svg)](https://doi.org/10.25504/FAIRsharing.3b36hk)
+[![OXFORD](https://img.shields.io/badge/OXFORD-10.1093%2Fnar%2Fgkl999-darkblue.svg)](https://doi.org/10.1093/nar/gkl999) [![FAIRsharing](https://img.shields.io/badge/FAIRsharing-10.25504%2FFAIRsharing.3b36hk-lightblue.svg)](https://doi.org/10.25504/FAIRsharing.3b36hk)   
+The specific version of the dataset employed in this study is archived as a reproducible snapshot:  
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15800680.svg)](https://doi.org/10.5281/zenodo.15800680)
 
-**HuggingEmbeddings** - The embeddings dataset for proteins and ligands is stored on zenodo. There, a versioned dataset card can be found.  
-[![DOI](https://img.shields.io/badge/DOI-10.57967%2Fhf%2F5960-yellow)](https://doi.org/10.57967/hf/5960)
+**HuggingEmbeddings** - The generated protein and ligand embeddings dataset is hosted on the Zenodo Sandbox, with versioned copies also maintained on Hugging Face.  
+[![DOI](https://sandbox.zenodo.org/badge/DOI/10.5072/zenodo.288350.svg)](https://sandbox.zenodo.org/records/288350) [![haggingface](https://img.shields.io/badge/haggingface-10.57967%2Fhf.2F5960-yellow.svg)](https://doi.org/10.57967/hf/5960)
 
 ## HuggingLigand Directory Structure
 
@@ -156,6 +159,16 @@ HuggingLigand/
 └── README.md
 ```
 
+## Example Analysis Results
+
+<h3 align="center">Distances and Similarities</h3>
+
+<p align="center">
+  <img src="results/ligands_embeddings_similarities_distances.jpeg" alt="Ligands similarities distances" width="45%"/>
+  <img src="results/proteins_embeddings_similarities_distances.jpeg" alt="Proteins similarities distances" width="45%"/>
+</p>
+
+
 ## Contributing
 Thank you for your interest in contributing to HuggingLigand! We welcome contributions from the community to help improve protein-ligand binding affinity prediction.  
 
@@ -168,13 +181,13 @@ For detailed guidelines on how to contribute — including setting up your devel
 
 * TestPyPI Sandbox: [huggingligand on TestPyPI](https://test.pypi.org/project/huggingligand/)
 
-* Dataset on Zenodo sandbox publication: [huggingligand on Zenodo]()
+* Dataset on Zenodo sandbox publication: [huggingligand on Zenodo](https://sandbox.zenodo.org/records/288350)
 
 * Dataset on Hugging Face Hub: [Hugging-Ligand-Embeddings](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-embeddings)
 
 * ChemBERTa Pretrained Model: [ChemBERTa](https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1)
 
-* ProtT5 Pretrained Model: [ProtT5-XL-UniRef50]()
+* ProtT5 Pretrained Model: [ProtT5-XL-UniRef50](https://huggingface.co/Rostlab/prot_t5_xl_half_uniref50-enc)
 
 * BindingDB Data Source: [BindingDB](https://doi.org/10.25504/FAIRsharing.3b36hk)
 
