@@ -1,0 +1,39 @@
+{
+  "title": "HuggingLigand: Where proteins embrace ligands through deep learning",
+  "upload_type": "software",
+  "version": "0.1.0",
+  "publication_date": "2025-06-17",
+  "description": "A machine learning framework for predicting protein-ligand binding affinity using transformer-based models (ProtT5 and ChemBERTa) trained on BindingDB data.",
+  "creators": [
+    {
+      "name": "Ramy Boulos"
+    },
+    {
+      "name": "Michael Hanna"
+    },
+    {
+      "name": "Justus Möller"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "machine learning",
+    "protein-ligand binding",
+    "drug discovery",
+    "transformers",
+    "bioinformatics",
+    "cheminformatics"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://codebase.helmholtz.cloud/tud-rse-pojects-2025/group-11",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://codebase.helmholtz.cloud/tud-rse-pojects-2025/group-11",
+      "relation": "isReferencedBy",
+      "scheme": "url"
+    }
+  ]
+}
