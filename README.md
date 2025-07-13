@@ -1,15 +1,16 @@
 # **HuggingLigand**: Learning the Language of a Molecular Hug
 **A Deep Learning framework for protein–ligand affinity prediction.**
 
+
 ## Project Description
+
 HuggingLigand is a modular deep learning framework for generating high-dimensional embeddings from protein sequences and small molecule structures — with the ultimate goal of predicting binding affinities between them. This prediction task is central to areas like drug discovery, biophysics, and computational biology, where determining how tightly a small molecule ligand binds to a protein target is crucial.  
   
 This pipeline currently focuses on generating and managing protein and ligand embeddings using state-of-the-art transformer-based language models:
 * ProtT5: a protein language model pretrained on millions of protein sequences.  
-* ChemBERTa: a molecular language model trained on SMILES representations of chemical compounds. [![arXiv](https://img.shields.io/badge/arXiv-2209.01712-b31b1b.svg)](https://arxiv.org/abs/2209.01712) [![Dataset](https://img.shields.io/badge/HuggingFace-ChemBERTa-blue.svg)](https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1)
-
-
----
+[![IEEE](https://img.shields.io/badge/IEEE-10.1109%2FTPAMI.2021.3095381-darkblue.svg)](https://doi.org/10.1109/TPAMI.2021.3095381) [![Hugging Face](https://img.shields.io/badge/HuggingFace-prot_t5_xl_half_uniref50--enc-yellow)](https://huggingface.co/Rostlab/prot_t5_xl_half_uniref50-enc)
+* ChemBERTa: a molecular language model trained on SMILES representations of chemical compounds.  
+[![arXiv](https://img.shields.io/badge/arXiv-2209.01712-b31b1b.svg)](https://arxiv.org/abs/2209.01712) [![Hugging Face](https://img.shields.io/badge/HuggingFace-ChemBERTa-yellow.svg)](https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1)
 
 ## Why HuggingLigand?
 
@@ -21,8 +22,6 @@ This pipeline currently focuses on generating and managing protein and ligand em
 
 * **Reproducibility**: Fully configurable through Poetry-managed environments for reliable, consistent results. while our [**Hugging-Ligand-Embeddings**](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-Embeddings) dataset card on the Hugging Face Hub providing versioned, reproducible embedding datasets for consistent experiments.
 
----
-
 ## Current Features
 
 * Preprocessing and formatting of **BindingDB**  datasets. 
@@ -31,7 +30,7 @@ This pipeline currently focuses on generating and managing protein and ligand em
 * Export of embedding datasets for downstream tasks.  
 * Command-line interface (CLI) for seamless embedding generation and data preparation.  
 
-## Project Roadmap
+## Potential Future Steps
 
 The current release covers embedding generation and data preparation steps. The next development phase will integrate these embeddings into a binding affinity prediction model, enabling end-to-end learning from raw molecular data to continuous affinity values(e.g., Kd, Ki, or IC50 values).
 Future plans include:
@@ -39,10 +38,10 @@ Future plans include:
 - Implementing result visualization and interpretability tools.
 - Expanding model support for additional molecular representations.
 
----
-
 ## Installation and Usage
+
 You can install HuggingLigand either from source for development, or as a pre-built wheel for normal use.
+
 ### From Source
 To install HuggingLigand including source codes, clone the repository and install the required dependencies with `poetry`:
 
@@ -52,60 +51,50 @@ cd group-11
 poetry install
 ```
 
-### From Wheel
-Download the latest .whl file from the dist/ directory and install it in your virtual environment:
+You can then run the CLI script directly from the source directory and get help with:
 
 ```bash
-pip install huggingligand-1.0.0-py3-none-any.whl
+poetry run python src/cli/cli.py --help
 ```
 
-### From TestPyPI (Sandbox)[![TestPyPI](https://img.shields.io/badge/TestPyPI-huggingligand-blue)](https://test.pypi.org/project/huggingligand/)
-For testing the latest development build hosted on TestPyPI, you can install it directly via:
+**Potential options include:**
+
+- `--source`: URL to the dataset (default is a BindingDB dataset).
+- `-v` or `--verbose`: Increase verbosity level (e.g., `-v` for WARNING, `-vv` for INFO, `-vvv` for DEBUG).
+- `--text-only`: Suppress graphical output.
+- `--rows`: Number of rows to process from the dataset.
+- `--output-dir`: Directory to save the embeddings and analysis results.
+- `--embed`: Specify what to embed (options are 'ligand', 'protein', or 'both').
+
+**To evaluate now a BindingDB dataset on 100 dataset rows, you can run:**
+
+```bash
+poetry run python src/cli/cli.py --source https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip --rows 100
+```
+
+### From TestPyPI
+[![TestPyPI](https://img.shields.io/badge/TestPyPI-huggingligand-blue)](https://test.pypi.org/project/huggingligand/)  
+
+For testing the latest build hosted on TestPyPI, you can install it directly (after having created a virtual environment based on Python 3.11) via:
 
 ```bash
 pip install -i https://test.pypi.org/simple/ huggingligand
 ```
 
-
-### Usage (Basic check)
-**Then execute the CLI script**:
+**Then execute the CLI script and run with options as a normal python package:**
 ```bash
 huggingligand --help
 ```
 
----
+## Dataset
 
-## Dataset  
+**BindingDB** - A curated dataset of experimentally measured protein-ligand binding affinities.  
+[![OXFORD](https://img.shields.io/badge/OXFORD-10.1093%2Fnar%2Fgkl999-darkblue.svg)](https://doi.org/10.1093/nar/gkl999) [![FAIRsharing](https://img.shields.io/badge/FAIRsharing-10.25504%2FFAIRsharing.3b36hk-lightblue.svg)](https://doi.org/10.25504/FAIRsharing.3b36hk)   
+The specific version of the dataset employed in this study is archived as a reproducible snapshot:  
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15800680.svg)](https://doi.org/10.5281/zenodo.15800680)
 
-**BindingDB** — a curated dataset of experimentally measured protein-ligand binding affinities [![DOI](https://img.shields.io/badge/DOI-10.25504%2FFAIRsharing.3b36hk-blue.svg)](https://doi.org/10.25504/FAIRsharing.3b36hk)
-
-
-**HuggingEmbeddings** - We store the embeddings dataset on zenodo 
-Also, you can find versioned Dataset card on [![Dataset](https://img.shields.io/badge/HuggingFace-HuggingLigand_Embeddings-blue.svg)](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-embeddings)
-
----
-
-## Running the application
-
-Once installed, you can run HuggingLigand to process data and generate embeddings.
-You can create a folder to store data and results and run the the app with (it is recommended to use --rows argument to reduce runtime):
-
-```bash
-mkdir huggingligand
-cd huggingligand
-huggingligand --source https://www.bindingdb.org/rwd/bind/downloads/BindingDB_BindingDB_Articles_202506_tsv.zip --rows 100
-```
-
-And get all available CLI options with:
-```bash
-huggingligand --help
-```
-You can also test it via:
-```bash
-poetry run python src/cli/cli.py --help
-```
-
----
+**HuggingEmbeddings** - The generated protein and ligand embeddings dataset is hosted on the Zenodo Sandbox, with versioned copies also maintained on Hugging Face.  
+[![DOI](https://sandbox.zenodo.org/badge/DOI/10.5072/zenodo.288350.svg)](https://sandbox.zenodo.org/records/288350) [![haggingface](https://img.shields.io/badge/haggingface-10.57967%2Fhf.2F5960-yellow.svg)](https://doi.org/10.57967/hf/5960)
 
 ## HuggingLigand Directory Structure
 
@@ -170,6 +159,16 @@ HuggingLigand/
 └── README.md
 ```
 
+## Example Analysis Results
+
+<h3 align="center">Distances and Similarities</h3>
+
+<p align="center">
+  <img src="results/ligands_embeddings_similarities_distances.jpeg" alt="Ligands similarities distances" width="45%"/>
+  <img src="results/proteins_embeddings_similarities_distances.jpeg" alt="Proteins similarities distances" width="45%"/>
+</p>
+
+
 ## Contributing
 Thank you for your interest in contributing to HuggingLigand! We welcome contributions from the community to help improve protein-ligand binding affinity prediction.  
 
@@ -182,17 +181,15 @@ For detailed guidelines on how to contribute — including setting up your devel
 
 * TestPyPI Sandbox: [huggingligand on TestPyPI](https://test.pypi.org/project/huggingligand/)
 
-* Dataset on Zenodo sandbox publication: [huggingligand on Zenodo]()
+* Dataset on Zenodo sandbox publication: [huggingligand on Zenodo](https://sandbox.zenodo.org/records/288350)
 
 * Dataset on Hugging Face Hub: [Hugging-Ligand-Embeddings](https://huggingface.co/datasets/RSE-Group11/Hugging-Ligand-embeddings)
 
 * ChemBERTa Pretrained Model: [ChemBERTa](https://huggingface.co/seyonec/ChemBERTa-zinc-base-v1)
 
-* ProtT5 Pretrained Model: [ProtT5-XL-UniRef50]()
+* ProtT5 Pretrained Model: [ProtT5-XL-UniRef50](https://huggingface.co/Rostlab/prot_t5_xl_half_uniref50-enc)
 
 * BindingDB Data Source: [BindingDB](https://doi.org/10.25504/FAIRsharing.3b36hk)
-
-
 
 ## License
 

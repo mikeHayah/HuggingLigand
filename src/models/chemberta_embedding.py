@@ -1,8 +1,8 @@
-
+import logging
 import torch
 from tqdm import tqdm
 
-from src.modules.embedding_utils import mean_pool_embedding
+from src.models.utils.embedding_utils import mean_pool_embedding
 from src.modules.loaders import load_chemberta_model
 
 
@@ -53,7 +53,7 @@ class ChembertaEmbedder:
         
         self._cache = {}
 
-    def embed(self, smiles_list: list[str], batch_size: int = 32, show_progress: bool = True) -> list[torch.Tensor]:
+    def embed(self, smiles_list: list[str], batch_size: int = 4, show_progress: bool = True) -> list[torch.Tensor]:
         """
         Get embeddings for a list of SMILES strings.
 
@@ -139,8 +139,7 @@ class ChembertaEmbedder:
             
             # Clear cache periodically to prevent unlimited memory growth
             if len(self._cache) > 10 ** 6:  # Adjust this threshold as needed
-                if show_progress:
-                    print("Clearing embedding cache to free memory...")
+                logging.info("Clearing embedding cache to free memory...")
                 self._cache.clear()
 
         return all_embeddings

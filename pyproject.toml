@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "huggingligand"
-version = "1.0.0"
-description = "Protein embedding and analysis with ProtT5"
+version = "1.1.0"
+description = "A Deep Learning framework for protein–ligand affinity prediction."
 authors = [
     "Ramy Boulos",
     "Michael Hanna",
@@ -14,7 +14,7 @@ packages = [
 ]
 
 [tool.poetry.scripts]
-huggingligand = "src.scripts.cli:main"
+huggingligand = "src.cli.cli:main"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.12"

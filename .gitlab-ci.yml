@@ -54,7 +54,7 @@ deploy-testpypi:
   dependencies:
     - build
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
   environment:
     name: testpypi
     url: https://test.pypi.org/project/huggingligand/
@@ -65,7 +65,7 @@ execute:
     HF_HOME: "$CI_PROJECT_DIR/.cache/huggingface"
   script:
     - mkdir -p results
-    - poetry run python src/cli/cli.py --text-only --output-dir results -vv --rows 10
+    - poetry run python src/cli/cli.py --text-only --output-dir results -vv --rows 4
   artifacts:
     paths:
       - results/

@@ -2,10 +2,8 @@ import logging
 import torch
 from tqdm import tqdm
 
-from src.modules.embedding_utils import mean_pool_embedding
+from src.models.utils.embedding_utils import mean_pool_embedding
 from src.modules.loaders import load_prott5_model
-
-logger = logging.getLogger(__name__)
 
 
 class ProtT5Embedder:
@@ -44,7 +42,7 @@ class ProtT5Embedder:
 
         self._cache = {}
 
-    def embed(self, sequences: list[str], batch_size: int = 4, show_progress: bool = False, full_data: bool = False) -> list[torch.Tensor]:
+    def embed(self, sequences: list[str], batch_size: int = 4, show_progress: bool = False) -> list[torch.Tensor]:
         """
         Generates mean-pooled ProtT5 embeddings for the given protein sequences in batches.
 
@@ -56,23 +54,18 @@ class ProtT5Embedder:
             Number of sequences to process at a time to reduce memory usage.
         show_progress : bool
             Whether to display a progress bar during embedding.
-        full_data : bool
-            Whether to use the full dataset or limit to 1000 sequences.
 
         Returns
         -------
         list[torch.Tensor]
             A list of tensors where each tensor is the embedding vector for a protein sequence.
         """
-        
-        if not full_data:
-            sequences = sequences[:100]
+
+        batch_range = range(0, len(sequences), batch_size)
 
         if show_progress and len(sequences) > batch_size:
-            batch_range = tqdm(range(0, len(sequences), batch_size), desc="Processing batches", unit="batch", leave=False)
-        else:
-            batch_range = range(0, len(sequences), batch_size)
-
+            batch_range = tqdm(batch_range, desc="Processing batches", unit="batch", leave=False)
+            
         all_embeddings = []
 
         for i in batch_range:
@@ -98,5 +91,10 @@ class ProtT5Embedder:
             del inputs, input_ids, attention_mask, outputs, embeddings
             if self.device.type == "cuda":
                 torch.cuda.empty_cache()
+
+            # Clear cache periodically to prevent unlimited memory growth
+            if len(self._cache) > 10 ** 6:  # Adjust this threshold as needed
+                logging.info("Clearing embedding cache to free memory...")
+                self._cache.clear()
 
         return all_embeddings
