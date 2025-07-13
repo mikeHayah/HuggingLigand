@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "title": "HuggingLigand: Where proteins embrace ligands through deep learning",
+    "upload_type": "software",
+    "version": "1.1.3",
+    "publication_date": "2025-06-17",
+    "description": "HuggingLigand is a modular deep learning framework for generating high-dimensional embeddings from protein sequences and small molecule structures — with the ultimate goal of predicting binding affinities between them. This prediction task is central to areas like drug discovery, biophysics, and computational biology, where determining how tightly a small molecule ligand binds to a protein target is crucial.\n\nThis pipeline currently focuses on generating and managing protein and ligand embeddings using state-of-the-art transformer-based language models:\n- ProtT5: a protein language model pretrained on millions of protein sequences.\n- ChemBERTa: a molecular language model trained on SMILES representations of chemical compounds.\n\nHuggingLigand offers:\n- Modular Design: Each pipeline block (preprocessing, embedding, postprocessing) is independent, extensible, and easy to maintain.\n- State-of-the-art Models: Leverages powerful transformer architectures without requiring deep NLP knowledge.\n- CLI-Friendly: Seamlessly integrates into workflows via a clean, intuitive command-line interface.\n- Reproducibility: Fully configurable through Poetry-managed environments for reliable, consistent results.\n\nCurrent Features:\n- Preprocessing and formatting of BindingDB datasets.\n- A 'Bindingdata' class for extensible and efficient data manipulation.\n- Automatic embedding generation for protein sequences and ligand SMILES strings.\n- Export of embedding datasets for downstream tasks.\n- Command-line interface (CLI) for seamless embedding generation and data preparation.\n\nFuture development will integrate these embeddings into a binding affinity prediction model, enabling end-to-end learning from raw molecular data to continuous affinity values (e.g., Kd, Ki, or IC50). Additional planned features include visualization tools and expanded model support.\n\nDataset:\n- BindingDB: Curated dataset of experimentally measured protein-ligand binding affinities.\n- HuggingEmbeddings: Generated embedding dataset hosted on Zenodo Sandbox and Hugging Face Hub.\n",
+    "creators": [
+      {
+        "name": "Ramy Boulos",
+        "affiliation": "TU Dresden"
+      },
+      {
+        "name": "Michael Hanna",
+        "affiliation": "TU Dresden"
+      },
+      {
+        "name": "Justus Möller",
+        "affiliation": "TU Dresden"
+      }
+    ],
+    "license": "MIT",
+    "keywords": [
+      "machine learning",
+      "protein-ligand binding",
+      "drug discovery",
+      "transformers",
+      "bioinformatics",
+      "cheminformatics"
+    ],
+    "related_identifiers": [
+      {
+        "identifier": "https://codebase.helmholtz.cloud/tud-rse-pojects-2025/group-11",
+        "relation": "isSupplementTo",
+        "scheme": "url"
+      },
+      {
+        "identifier": "https://codebase.helmholtz.cloud/tud-rse-pojects-2025/group-11",
+        "relation": "isReferencedBy",
+        "scheme": "url"
+      }
+    ],
+    "access_right": "open",
+    "language": "eng"
+  }
+}
