@@ -43,7 +43,7 @@ build:
       - dist/
     expose_as: 'HuggingLigand Package'
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"
+    - if: '$CI_COMMIT_BRANCH == "main"'
 
 deploy-testpypi:
   stage: deploy-testpypi
@@ -54,7 +54,7 @@ deploy-testpypi:
   dependencies:
     - build
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"
+    - if: '$CI_COMMIT_BRANCH == "main"'
   environment:
     name: testpypi
     url: https://test.pypi.org/project/huggingligand/
