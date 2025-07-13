@@ -17,8 +17,9 @@ stages:
   - lint
   - test
   - build
+  - deploy-testpypi
   - execute
-  - deploy
+  - generate-docu
 
 lint:
   stage: lint
@@ -44,13 +45,27 @@ build:
   rules:
     - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
 
+deploy-testpypi:
+  stage: deploy-testpypi
+  script:
+    - poetry config repositories.testpypi https://test.pypi.org/legacy/
+    - poetry config pypi-token.testpypi $TESTPYPI_TOKEN # value defined in GitLab CI/CD variables
+    - poetry publish --repository testpypi
+  dependencies:
+    - build
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  environment:
+    name: testpypi
+    url: https://test.pypi.org/project/huggingligand/
+
 execute:
   stage: execute
   variables:
     HF_HOME: "$CI_PROJECT_DIR/.cache/huggingface"
   script:
     - mkdir -p results
-    - poetry run python src/scripts/cli.py --text-only --output-dir results -vv --rows 10
+    - poetry run python src/cli/cli.py --text-only --output-dir results -vv --rows 10
   artifacts:
     paths:
       - results/
@@ -65,7 +80,7 @@ execute:
     policy: pull-push
 
 pages:
-  stage: deploy
+  stage: generate-docu
   script:
     - poetry run python docs/config/generate_api_rst.py
     - poetry run sphinx-build -b singlehtml docs/config/ public/
