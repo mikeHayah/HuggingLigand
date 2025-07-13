@@ -88,6 +88,10 @@ pip install -i https://test.pypi.org/simple/ huggingligand
 huggingligand --help
 ```
 
+### Configuration
+HuggingLigand uses a `config.ini` file for configuration, which is located in the `src/config/` directory.  
+You can modify this file to change paths and used models.
+
 ## Dataset
 
 **BindingDB** - A curated dataset of experimentally measured protein-ligand binding affinities.  
