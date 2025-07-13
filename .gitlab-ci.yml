@@ -1,5 +1,8 @@
 image: python:3.11
 
+include:
+  - remote: 'https://gitlab.com/deploy2zenodo/deploy2zenodo/-/releases/permalink/latest/downloads/deploy2zenodo.yaml'
+
 variables:
   POETRY_VERSION: "1.8.2"
   POETRY_VIRTUALENVS_CREATE: "true"
@@ -17,7 +20,7 @@ stages:
   - lint
   - test
   - build
-  - deploy-testpypi
+  - deploy
   - execute
   - generate-docu
 
@@ -43,10 +46,10 @@ build:
       - dist/
     expose_as: 'HuggingLigand Package'
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
+    - if: '$CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
 
 deploy-testpypi:
-  stage: deploy-testpypi
+  stage: deploy
   script:
     - poetry config repositories.testpypi https://test.pypi.org/legacy/
     - poetry config pypi-token.testpypi $TESTPYPI_TOKEN # value defined in GitLab CI/CD variables
@@ -58,6 +61,20 @@ deploy-testpypi:
   environment:
     name: testpypi
     url: https://test.pypi.org/project/huggingligand/
+
+deploy2zenodo:
+  extends: .deploy2zenodo_alpine
+  stage: deploy
+  variables:
+    DEPLOY2ZENODO_API_URL: https://sandbox.zenodo.org/api
+    DEPLOY2ZENODO_ACCESS_TOKEN: $ZENODO_TOKEN
+    DEPLOY2ZENODO_JSON: $ZENODO_METADATA_PATH
+    DEPLOY2ZENODO_UPLOAD: "dist/*.tar.gz"
+    DEPLOY2ZENODO_DEPOSITION_ID: "create NEW record"
+  dependencies:
+    - build
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/'
 
 execute:
   stage: execute
