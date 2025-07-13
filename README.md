@@ -1,6 +1,8 @@
 # **HuggingLigand**: Learning the Language of a Molecular Hug
 **A Deep Learning framework for protein–ligand affinity prediction.**
 
+**Authors**: Ramy Boulos, Michael Hanna, Justus Möller
+
 
 ## Project Description
 
@@ -85,6 +87,10 @@ pip install -i https://test.pypi.org/simple/ huggingligand
 ```bash
 huggingligand --help
 ```
+
+### Configuration
+HuggingLigand uses a `config.ini` file for configuration, which is located in the `src/config/` directory.  
+You can modify this file to change paths and used models.
 
 ## Dataset
 
@@ -204,10 +210,8 @@ Please review the LICENSE file for full details.
 
 ## Acknowledgements
 
-This work was carried out as part of the Lab Course: Research in Software Engineering at TU-Dresden, organized by the Computational Science Department at Helmholtz-Zentrum Dresden-Rossendorf (HZDR). We would like to sincerely thank Dr. Guido Juckeland and course coordinators for his supervision, guidance, and valuable feedback throughout the project.
+This work was carried out as part of the Lab Course: Research in Software Engineering at TU Dresden, organized by the Computational Science Department at Helmholtz-Zentrum Dresden-Rossendorf (HZDR). We sincerely thank Dr. Guido Juckeland for his expert supervision and guidance throughout the project.
 
-Our gratitude also goes to the course coordinator Katja Linnemann for organizing and facilitating the course framework and providing an engaging environment for applied software engineering research.
+We also extend our gratitude to the course assistants, Mr. Fredo Erxleben and Ms. Katja Linnemann, for their dedicated support and facilitation of the course environment.
 
 We further acknowledge the use of codebase.helmholtz.cloud as the primary platform for version control, collaborative development, and project management.
-
-
