@@ -3,7 +3,7 @@
 
 **Authors**: Ramy Boulos, Michael Hanna, Justus Möller
 
-<img width="500" height="500" alt="1" src="https://github.com/user-attachments/assets/858d4a1c-7705-4a87-a7ad-98db1d4bf2b4" />
+<img width="200" height="200" alt="1" src="https://github.com/user-attachments/assets/858d4a1c-7705-4a87-a7ad-98db1d4bf2b4" />
 
 ## Project Description
 
